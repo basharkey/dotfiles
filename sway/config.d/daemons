@@ -1,0 +1,7 @@
+# user daemons
+exec --no-startup-id lxpolkit
+# thunar automount removable drives
+exec --no-startup-id thunar --daemon
+exec --no-startup-id nextcloud --background
+# pipewire equalizer
+exec --no-startup-id easyeffects --gapplication-service

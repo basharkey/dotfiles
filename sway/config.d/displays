@@ -1,0 +1,4 @@
+# display position and resolution
+output DVI-I-1 pos 0 180 res 1920x1080
+output HDMI-A-1 pos 1920 0 res 2560x1440@59.951Hz
+output DVI-D-1 pos 4480 180 res 1920x1080

@@ -1,0 +1,46 @@
+{
+    "position": "bottom",
+    "height": 30,
+    "modules-left": ["sway/workspaces", "sway/mode", "custom/weather"],
+    "modules-right": ["custom/crypto", "cpu", "memory", "temperature", "clock", "tray"],
+
+    "tray": {
+        "icon-size": 16,
+        "spacing": 10
+    },
+
+    "clock": {
+        "interval": 1,
+        "tooltip": true,
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "format": "{:%Y-%m-%d %H:%M:%S}",
+    },
+
+    "cpu": {
+        "format": "CPU {usage}%",
+        "tooltip": true
+    },
+
+    "memory": {
+        "format": "MEM {}%",
+        "tooltip": false
+    },
+
+    "temperature": {
+        "format": "TEMP {temperatureC}°C",
+        "hwmon-path": "/sys/class/hwmon/hwmon2/temp3_input",
+        "tooltip": false
+    },
+
+    "custom/crypto": {
+        "interval": 14400,
+        "return-type": "string",
+        "exec": "swaybar-crypto"
+    },
+
+    "custom/weather": {
+        "interval": 3600,
+        "return-type": "string",
+        "exec": "wayweather.py"
+    }
+}

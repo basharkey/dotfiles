@@ -1,0 +1,27 @@
+font="Noto Sans Mono"
+font-size=14
+#image=/usr/share/backgrounds/default.png
+color=222222
+line-color=333333
+ring-color=4c7899
+inside-color=285577
+separator-color=4c7899
+key-hl-color=009000
+bs-hl-color=900000
+text-color=ffffff
+text-caps-lock-color=ffffff
+
+inside-ver-color=285577
+ring-ver-color=009000
+line-ver-color=333333
+text-ver-color=ffffff
+
+inside-wrong-color=285577
+ring-wrong-color=900000
+line-wrong-color=333333
+text-wrong-color=ffffff
+
+inside-clear-color=285577
+ring-clear-color=5f676a
+line-clear-color=333333
+text-clear-color=ffffff
