@@ -32,9 +32,8 @@ tooltip label {
     border-bottom: 3px solid white;
 }
 
-#custom-weather,
-#custom-crypto,
 #mode,
+#custom-weather,
 #cpu,
 #memory,
 #temperature,

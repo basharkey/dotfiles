@@ -2,7 +2,7 @@
     "position": "bottom",
     "height": 30,
     "modules-left": ["sway/workspaces", "sway/mode", "custom/weather"],
-    "modules-right": ["custom/crypto", "cpu", "memory", "temperature", "clock", "tray"],
+    "modules-right": ["cpu", "memory", "temperature", "clock", "tray"],
 
     "tray": {
         "icon-size": 16,
@@ -30,12 +30,6 @@
         "format": "TEMP {temperatureC}°C",
         "hwmon-path": "/sys/class/hwmon/hwmon2/temp3_input",
         "tooltip": false
-    },
-
-    "custom/crypto": {
-        "interval": 14400,
-        "return-type": "string",
-        "exec": "swaybar-crypto"
     },
 
     "custom/weather": {
