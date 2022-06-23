@@ -185,7 +185,7 @@ bindsym $mod+r mode "resize"
             resume 'swaymsg "output * dpms on"'
     
     # logout
-    set $mode_system System (l) lock, (e) logout, (s) suspend, (r) reboot, (Shift+s) shutdown
+    set $mode_system (l) lock (e) logout (s) suspend (r) reboot (Shift+s) shutdown
     mode "$mode_system" {
         bindsym l exec --no-startup-id $locker, mode "default"
         bindsym e exec --no-startup-id swaymsg exit, mode "default"

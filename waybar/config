@@ -1,7 +1,8 @@
 {
     "position": "bottom",
     "height": 30,
-    "modules-left": ["sway/workspaces", "sway/mode", "custom/weather"],
+    "modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-center": ["custom/weather"],
     "modules-right": ["cpu", "memory", "temperature", "clock", "tray"],
 
     "tray": {
