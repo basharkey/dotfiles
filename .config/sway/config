@@ -32,7 +32,7 @@ set $menu fuzzel \
 | xargs swaymsg exec --
 
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-#output * bg /usr/share/backgrounds/default.png fill
+output * bg ./wallpaper.png fill
 
 ### Key bindings
 #
