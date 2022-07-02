@@ -1,4 +1,5 @@
 set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
+set backspace=indent,eol,start
 syntax on
 
 " wayland clipboard fix (requires wl-clipboard)
@@ -54,7 +55,7 @@ let g:netrw_liststyle = 3
 " make always visible
 set laststatus=2
 " current git branch (requires fugitive)
-set statusline=%{fugitive#head()}
+set statusline=%{FugitiveHead()}
 " current file
 set statusline+=\ %F
 " current line/col
