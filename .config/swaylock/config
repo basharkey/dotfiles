@@ -1,7 +1,9 @@
 font="Noto Sans Mono"
 font-size=14
-#image=/usr/share/backgrounds/default.png
-color=222222
+# use image for background
+image=/usr/share/backgrounds/default.png
+# use solid colour for background
+#color=222222
 line-color=333333
 ring-color=4c7899
 inside-color=285577

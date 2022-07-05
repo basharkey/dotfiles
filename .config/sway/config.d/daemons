@@ -1,6 +1,6 @@
 # user daemons
 exec --no-startup-id lxpolkit
-# thunar automount removable drives
+# start thunar daemon to automount drives
 exec --no-startup-id thunar --daemon
 exec --no-startup-id nextcloud --background
 # pipewire equalizer
