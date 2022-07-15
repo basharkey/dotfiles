@@ -1,7 +1,14 @@
 # user daemons
 exec --no-startup-id lxpolkit
+
 # start thunar daemon to automount drives
 exec --no-startup-id thunar --daemon
-exec --no-startup-id nextcloud --background
+
 # pipewire equalizer
 exec --no-startup-id easyeffects --gapplication-service
+
+# start keepassxc and its secrets service first so nextcloud can obtain secrets from it
+workspace 8
+exec keepassxc
+exec --no-startup-id nextcloud --background
+
