@@ -206,6 +206,7 @@ bindsym $mod+r mode "resize"
     bindsym $mod+Shift+s exec grimshot copy area
     
     # multimedia
+    bindsym $mod+p exec --no-startup-id playerctl play-pause
     bindsym XF86Tools exec --no-startup-id playerctl -p spotify play-pause
     bindsym XF86Launch7 exec --no-startup-id spotifyvctl.py raise 5
     bindsym XF86Launch8 exec --no-startup-id spotifyvctl.py lower 5
@@ -217,5 +218,12 @@ bindsym $mod+r mode "resize"
 bar {
     swaybar_command waybar
 }
+
+# set systemd user environment vars
+# fixes urls not opening in flatpak apps
+# https://github.com/swaywm/sway/issues/5777
+exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
+exec hash dbus-update-activation-environment 2>/dev/null && \
+     dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
 
 include ~/.config/sway/config.d/*

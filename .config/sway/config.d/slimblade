@@ -2,5 +2,8 @@
 set $mouse 1149:8257:Kensington_Slimblade_Trackball
 # rebind middle mouse (top left button) to forward
 bindsym --input-device=$mouse --whole-window BTN_MIDDLE seat - cursor press BTN_EXTRA, seat - cursor release BTN_EXTRA
+# switch right and back buttons
+bindsym --input-device=$mouse --whole-window BTN_RIGHT seat - cursor press BTN_SIDE, seat - cursor release BTN_SIDE
+bindsym --input-device=$mouse --whole-window BTN_SIDE seat - cursor press BTN_RIGHT, seat - cursor release BTN_RIGHT
 # increase scroll speed
-input $mouse scroll_factor 3
+input $mouse scroll_factor 2
