@@ -7,8 +7,5 @@ exec --no-startup-id thunar --daemon
 # pipewire equalizer
 exec --no-startup-id easyeffects --gapplication-service
 
-# start keepassxc and its secrets service first so nextcloud can obtain secrets from it
-workspace 8
-exec keepassxc
 exec --no-startup-id nextcloud --background
 
