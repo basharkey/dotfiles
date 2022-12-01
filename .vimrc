@@ -1,4 +1,10 @@
-set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
+" file type based indentation
+filetype plugin indent on
+set autoindent
+" override default sh indentation to tab equals 4 spaces
+autocmd FileType sh set tabstop=4 shiftwidth=4 expandtab
+
+
 set backspace=indent,eol,start
 syntax on
 
@@ -31,9 +37,10 @@ nnoremap <Leader> <C-w>
 nnoremap <Leader>. :edit 
 nnoremap <Leader>, :tabedit 
 
-" fugitive
+" fugitive (git)
 nnoremap <leader>gg :Git<CR>:wincmd r<CR>
-nnoremap <leader>gp :Git -c push.default=current push<CR>
+nnoremap <leader>gs :Git -c push.default=current push<CR>
+nnoremap <leader>gp :Git pull<CR>
 nnoremap <leader>gc :Git checkout 
 nnoremap <leader>gb :Git checkout -b 
 
@@ -52,7 +59,7 @@ let g:netrw_banner = 0
 let g:netrw_liststyle = 3
 
 " status line
-" make always visible
+" set always visible
 set laststatus=2
 " current git branch (requires fugitive)
 set statusline=%{FugitiveHead()}
@@ -63,5 +70,3 @@ set statusline+=%=\ line:%l\ col:%v
 
 " changes current wording dir to dir of current buffer
 set autochdir
-
-set autoindent
