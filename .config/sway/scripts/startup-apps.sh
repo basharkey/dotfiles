@@ -15,10 +15,7 @@ swaymsg "workspace 8"
 time launch_app keepassxc '"app_id": "org.keepassxc.KeePassXC"'
 
 swaymsg "workspace 7"
-time launch_app thunderbird '"class": "Thunderbird"'
-
-swaymsg "workspace 6"
-time launch_app "flatpak run io.freetubeapp.FreeTube" '"class": "FreeTube"'
+time launch_app thunderbird '"class": "thunderbird"'
 
 swaymsg "workspace 5"
 time launch_app "flatpak run com.discordapp.Discord" '"name": "Discord"'
