@@ -1,4 +1,8 @@
+# get file mime type
+# xdg-mime query filetype file.txt
+
 [Default Applications]
+text/plain=vim.desktop
 text/html=firefox-wayland.desktop
 x-scheme-handler/http=firefox-wayland.desktop
 x-scheme-handler/https=firefox-wayland.desktop
