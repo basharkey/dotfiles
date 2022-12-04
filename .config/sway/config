@@ -207,17 +207,25 @@ bindsym $mod+r mode "resize"
     
     # multimedia
     bindsym $mod+p exec --no-startup-id playerctl play-pause
-    bindsym XF86Tools exec --no-startup-id playerctl -p spotify play-pause
+    bindsym $mod+Shift+p exec --no-startup-id playerctl -p spotify play-pause
     bindsym XF86Launch7 exec --no-startup-id spotifyvctl.py raise 5
     bindsym XF86Launch8 exec --no-startup-id spotifyvctl.py lower 5
     bindsym XF86Launch5 exec --no-startup-id playerctl next
     bindsym XF86Launch6 exec --no-startup-id playerctl previous
+
+    # toggle easyeffects presets
+    bindsym $mod+Shift+m exec --no-startup-id toggle easyeffects --load-preset "hd598cs default"
 #
 # Status bar
 #
 bar {
     swaybar_command waybar
 }
+
+#
+# Custom window settings
+#
+for_window [app_id="com.github.wwmm.easyeffects"] floating enable
 
 # set systemd user environment vars
 # fixes urls not opening for flatpak apps
