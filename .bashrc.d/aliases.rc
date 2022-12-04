@@ -1,2 +1,2 @@
-alias gt="gio trash"
+alias tt="gio trash"
 alias s="systemctl"

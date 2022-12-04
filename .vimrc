@@ -4,7 +4,6 @@ set autoindent
 " override default sh indentation to tab equals 4 spaces
 autocmd FileType sh set tabstop=4 shiftwidth=4 expandtab
 
-
 set backspace=indent,eol,start
 syntax on
 
@@ -23,7 +22,7 @@ set wildmode=list:longest
 let mapleader = " "
 
 " reload config
-nnoremap <Leader>rr :source ~/.vim/vimrc<CR>
+nnoremap <Leader>rr :source ~/.vimrc<CR>
 
 nnoremap <Leader>> :ls<CR>:buffer 
 " list buffers
