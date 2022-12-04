@@ -1,8 +1,8 @@
 # user daemons
 exec --no-startup-id lxpolkit
 
-# start thunar daemon to automount drives
-exec --no-startup-id thunar --daemon
+# start pcmanfm daemon to automount drives
+exec --no-startup-id pcmanfm --daemon-mode
 
 # pipewire equalizer
 exec --no-startup-id easyeffects --gapplication-service
