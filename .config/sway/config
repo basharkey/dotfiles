@@ -21,15 +21,7 @@ set $term alacritty
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
-set $menu fuzzel \
---background-color=222222ff \
---border-color=333333ff \
---text-color=ffffffff \
---selection-color=285577ff \
---selection-text-color=ffffffff \
---match-color=888888ff \
---border-radius=0 \
-| xargs swaymsg exec --
+set $menu fuzzel | xargs swaymsg exec --
 
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 output * bg /usr/share/backgrounds/default.png fill
