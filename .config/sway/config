@@ -219,11 +219,5 @@ bar {
 #
 for_window [app_id="com.github.wwmm.easyeffects"] floating enable
 
-# set systemd user environment vars
-# fixes urls not opening for flatpak apps
-# https://github.com/swaywm/sway/issues/5777
-exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
-exec hash dbus-update-activation-environment 2>/dev/null && \
-     dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
-
 include ~/.config/sway/config.d/*
+include /etc/sway/config.d/*
