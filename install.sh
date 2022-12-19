@@ -1,2 +1,3 @@
 #!/usr/bin/env bash
-cp -rT ./ ~/
+cp -rT ./home/ ~/
+sudo cp -rT ./system/ /
