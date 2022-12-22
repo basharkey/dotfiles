@@ -37,6 +37,7 @@ tooltip label {
 #cpu,
 #memory,
 #temperature,
+#battery,
 #clock,
 #tray {
     padding: 0 10px;
