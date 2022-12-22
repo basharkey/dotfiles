@@ -1,0 +1,6 @@
+alias tt="gio trash"
+
+swayd() {
+    swaymsg "$(cat $HOME/.config/sway/daemons.d/$1)"
+    echo "swaymsg $(cat $HOME/.config/sway/daemons.d/$1)"
+}
