@@ -1,7 +1,6 @@
 #
 # User env vars loaded by /usr/local/bin/sway-run.sh
 #
-export PATH="$HOME/.local/bin:$PATH"
 
 # Set Qt theme to follow qt5ct
 export QT_QPA_PLATFORMTHEME=qt5ct
