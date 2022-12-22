@@ -206,7 +206,19 @@ bindsym $mod+r mode "resize"
     bindsym XF86Launch8 exec --no-startup-id spotifyvctl.py lower 5
 
     # toggle easyeffects presets
-    bindsym $mod+Shift+m exec --no-startup-id toggle easyeffects --load-preset "hd598cs default"
+    bindsym $mod+Shift+m exec --no-startup-id toggle easyeffects --load-preset "hd598cs boseqc35ii default"
+#
+# Laptop shortcuts
+#
+    # display brightness
+    bindsym XF86MonBrightnessUp exec --no-startup-id light -A 10
+    bindsym XF86MonBrightnessDown exec --no-startup-id light -U 10
+
+    # audio control
+    bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
+    bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
+    bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+    bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
 #
 # Status bar
 #
