@@ -1,0 +1,8 @@
+[Default]
+save_dir=$HOME/Pictures
+save_filename_format=screenshot-%Y-%m-%d-%H-%M-%S.png
+show_panel=true
+line_size=3
+paint_mode=rectangle
+early_exit=true
+fill_shape=false

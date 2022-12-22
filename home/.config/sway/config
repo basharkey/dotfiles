@@ -194,8 +194,8 @@ bindsym $mod+r mode "resize"
 #
 # Application shortcuts
 #
-    # grimshot screenshot
-    bindsym $mod+Shift+s exec grimshot copy area
+    # grimshot screenshot to swappy
+    bindsym $mod+Shift+s exec grimshot save area - | swappy -f -
     
     # multimedia
     bindsym $mod+p exec --no-startup-id playerctl play-pause
