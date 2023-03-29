@@ -17,7 +17,8 @@
   :ensure t)
 
 (use-package forge
-  :ensure t)
+  :ensure t
+  :after magit)
 
 (use-package counsel
   :ensure t)
