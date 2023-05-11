@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-cp -rT ./home/ ~/
+cp -rT ./user/ ~/
 sudo cp -rT ./system/ /
