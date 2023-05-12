@@ -36,6 +36,6 @@
     "custom/weather": {
         "interval": 3600,
         "return-type": "string",
-        "exec": "wayweather"
+        "exec": "wayweather.py"
     }
 }

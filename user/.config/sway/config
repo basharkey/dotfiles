@@ -202,11 +202,11 @@ bindsym $mod+r mode "resize"
     bindsym $mod+o exec --no-startup-id playerctl next
     bindsym $mod+i exec --no-startup-id playerctl previous
     bindsym $mod+Shift+p exec --no-startup-id playerctl -p spotify play-pause
-    bindsym XF86Launch7 exec --no-startup-id spotifyvctl.py raise 5
-    bindsym XF86Launch8 exec --no-startup-id spotifyvctl.py lower 5
+    bindsym $mod+u exec --no-startup-id spotifyvctl.py raise 5
+    bindsym $mod+y exec --no-startup-id spotifyvctl.py lower 5
 
     # toggle easyeffects presets
-    bindsym $mod+Shift+m exec --no-startup-id toggle easyeffects --load-preset "hd598cs default"
+    bindsym $mod+Shift+m exec --no-startup-id toggle.sh easyeffects --load-preset "hd598cs boseqc35ii default"
 #
 # Status bar
 #
@@ -220,5 +220,4 @@ for_window [app_id="com.github.wwmm.easyeffects"] floating enable
 for_window [app_id="pcmanfm" title="Removable medium is inserted"] floating enable
 
 include /etc/sway/config.d/*
-include ~/.config/sway/daemons.d/*
 include ~/.config/sway/config.d/*
