@@ -8,9 +8,6 @@ LIBVIRT_DEFAULT_URI=qemu:///system
 # Set Qt theme to follow qt5ct
 QT_QPA_PLATFORMTHEME=qt5ct
 
-# SSH agent
-SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
-
 # Fix dissapearing mouse cursor for VMs (systems without GPU acceleration)
 #WLR_NO_HARDWARE_CURSORS=1
 
