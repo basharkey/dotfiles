@@ -208,12 +208,6 @@ bindsym $mod+r mode "resize"
     # toggle easyeffects presets
     bindsym $mod+Shift+m exec --no-startup-id toggle.sh easyeffects --load-preset "hd598cs boseqc35ii default"
 #
-# Status bar
-#
-bar {
-    swaybar_command waybar
-}
-#
 # Window rules
 #
 for_window [app_id="com.github.wwmm.easyeffects"] floating enable
