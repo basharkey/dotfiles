@@ -13,12 +13,8 @@
   :mode ("\\.yml\\'"
 	 "\\.yaml\\'"))
 
-(use-package sqlite3
-  :ensure t)
-
 (use-package magit
-  :ensure t
-  :after sqlite3)
+  :ensure t)
 
 (use-package forge
   :ensure t
