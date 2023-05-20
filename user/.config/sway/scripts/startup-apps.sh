@@ -15,9 +15,8 @@ swaymsg "workspace 8"
 time launch_app keepassxc '"app_id": "org.keepassxc.KeePassXC"'
 
 swaymsg "workspace 7"
+time launch_app "flatpak run io.github.spacingbat3.webcord" '"class": "WebCord"'
+swaymsg "splith"
 time launch_app evolution '"app_id": "evolution"'
-
-swaymsg "workspace 5"
-time launch_app "flatpak run com.discordapp.Discord" '"name": "Discord"'
 
 swaymsg "workspace 3"
