@@ -71,8 +71,9 @@
 (defun save-line-no-whitespace()
   (interactive)
   (message "Copied line (without whitespace)")
+  (setq x (point))
   (back-to-indentation)
   (copy-region-as-kill (point) (line-end-position))
-  (end-of-line 1))
+  (goto-char x))
 
 (global-set-key (kbd "C-x W") 'save-line-no-whitespace)
