@@ -72,6 +72,7 @@
   (interactive)
   (message "Copied line (without whitespace)")
   (back-to-indentation)
-  (copy-region-as-kill (point) (line-end-position)))
+  (copy-region-as-kill (point) (line-end-position))
+  (end-of-line 1))
 
 (global-set-key (kbd "C-x W") 'save-line-no-whitespace)
