@@ -13,3 +13,6 @@ QT_QPA_PLATFORMTHEME=qt5ct
 
 # GTK4 theme fix
 GTK_THEME=Adwaita-dark
+
+# Fix Java apps such as OWASP ZAP only showing a blank screen
+_JAVA_AWT_WM_NONREPARENTING=1
