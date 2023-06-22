@@ -77,3 +77,9 @@
   (goto-char x))
 
 (global-set-key (kbd "C-x W") 'save-line-no-whitespace)
+
+(defun quick-ansi-term()
+  (interactive)
+  (ansi-term shell-file-name (concat "ansi-term" " " default-directory)))
+
+(global-set-key (kbd "C-x a") 'quick-ansi-term)
