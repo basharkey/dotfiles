@@ -13,6 +13,9 @@
   :mode ("\\.yml\\'"
 	 "\\.yaml\\'"))
 
+(use-package csv-mode
+  :ensure t)
+
 (use-package magit
   :ensure t)
 
@@ -21,7 +24,14 @@
   :after magit)
 
 (use-package counsel
-  :ensure t)
+  :ensure t
+  :config
+  (ivy-mode 1)
+  (counsel-mode 1))
+
+;; (use-package helm
+;;   :ensure t
+;;   :config (helm-mode 1))
 
 ;; backup/autosave
 (setq backup-directory-alist
@@ -48,8 +58,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-enabled-themes '(wombat))
- '(ivy-mode t)
- '(package-selected-packages '(f yaml-mode use-package counsel))
+ '(package-selected-packages '(csv-mode helm emms f yaml-mode use-package counsel))
  '(scroll-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
