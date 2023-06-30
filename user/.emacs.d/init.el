@@ -1,3 +1,7 @@
+(menu-bar-mode 0)
+(tool-bar-mode 0)
+(scroll-bar-mode 0)
+
 (require 'package)
 (package-initialize)
 
@@ -57,9 +61,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-enabled-themes '(wombat))
- '(package-selected-packages '(csv-mode helm emms f yaml-mode use-package counsel))
- '(scroll-bar-mode nil))
+ '(custom-enabled-themes '(wombat)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -92,3 +94,20 @@
   (ansi-term shell-file-name (concat "ansi-term" " " default-directory)))
 
 (global-set-key (kbd "C-x a") 'quick-ansi-term)
+
+;;
+;; Custom keybindings
+;;
+
+(global-set-key (kbd "C-x C-g") 'magit-clone)
+
+;; Remove C-<tab> keybinding from magit so it doesn't conflict with tab-bar-switch-to-next-tab
+(add-hook 'magit-mode-hook
+	  (lambda()
+	    (local-unset-key (kbd "C-<tab>"))))
+
+;; Easier keybinds for term mode
+(add-hook 'term-mode-hook
+  (lambda ()
+    (define-key term-raw-map (kbd "M-j") 'term-line-mode)
+    (define-key term-mode-map (kbd "M-k") 'term-char-mode)))
