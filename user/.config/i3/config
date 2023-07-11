@@ -40,7 +40,7 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ to
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
 # use Mod1 for Alt
-set $mod Mod1
+set $mod Mod4
 
 # use these keys for focus, movement, and resize directions when reaching for
 # the arrows is not convenient
@@ -204,3 +204,18 @@ bindsym $mod+r mode "resize"
 bar {
         status_command i3status
 }
+
+exec --not-startup-id dunst
+exec --not-startup-id /usr/lib/polkit-gnome-authentication-agent-1
+exec --not-startup-id easyeffects --gapplication-service
+exec --not-startup-id pcmanfm --daemon-mode
+exec --not-startup-id nextcloud --background
+
+workspace 1 output DP-2
+workspace 2 output DP-2
+workspace 3 output DP-3
+workspace 4 output DP-3
+workspace 5 output DP-1
+workspace 6 output DP-1
+workspace 7 output DP-1
+workspace 8 output DP-1
