@@ -111,3 +111,8 @@
   (lambda ()
     (define-key term-raw-map (kbd "M-j") 'term-line-mode)
     (define-key term-mode-map (kbd "M-k") 'term-char-mode)))
+
+;; Ideas
+;; In dired pressing 1, 2, or 3 expands dirs using dired-subtree
+;; 1 expand dirs depth 1, 2 expand dirs depth2
+;; kinda like magit 1, 2, or 3
