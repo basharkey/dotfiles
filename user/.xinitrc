@@ -16,4 +16,7 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 # SSH agent
 export SSH_AUTH_SOCK=/run/user/$(id -u)/ssh-agent.socket
 
-exec dbus-launch --exit-with-session i3
+# Manually set dbus as startx unsets it
+export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus
+
+exec  i3
