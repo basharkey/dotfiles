@@ -223,11 +223,11 @@ mode "$mode_system" {
 
 bindsym $mod+Escape mode "$mode_system"
 
-exec --not-startup-id dunst
-exec --not-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
-exec --not-startup-id easyeffects --gapplication-service
-exec --not-startup-id pcmanfm --daemon-mode
-exec --not-startup-id nextcloud --background
+exec --no-startup-id dunst
+exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
+exec --no-startup-id easyeffects --gapplication-service
+exec --no-startup-id pcmanfm --daemon-mode
+exec --no-startup-id nextcloud --background
 
 workspace 1 output DP-2
 workspace 2 output DP-2
