@@ -8,14 +8,17 @@ if [ -d ~/.bashrc.d ]; then
 	    . "$rc"
 	fi
     done
+    unset rc
 fi
 
 # System wide aliases and functions
-if [ -d /etc/profile.d ]; then
-    for i in /etc/profile.d/*.sh; do
-	if [ -r $i ]; then
-	    . $i
-	fi
-    done
+for i in /etc/profile.d/*.sh /etc/profile.d/sh.local ; do
+    if [ -r "$i" ]; then
+        if [ "${-#*i}" != "$-" ]; then
+            . "$i"
+        else
+            . "$i" >/dev/null
+        fi
+    fi
     unset i
-fi
+done
