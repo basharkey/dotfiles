@@ -1,0 +1,31 @@
+# Global properties
+command=/usr/share/i3blocks/$BLOCK_NAME
+separator=false
+separator_block_width=30
+interval=5
+
+[weather]
+command=wayweather.py
+interval=3600
+
+[mediaplayer]
+instance=%any,spotify
+signal=10
+
+[cpu_usage]
+label=CPU
+min_width=CPU 100%
+
+[temperature]
+label=TEMP
+T_WARN=75
+T_CRIT=95
+
+[memory]
+label=MEM
+
+[bandwidth]
+
+[time]
+command=date '+%Y-%m-%d %H:%M:%S'
+interval=1
