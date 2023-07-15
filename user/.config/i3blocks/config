@@ -14,8 +14,6 @@ min_width=CPU 100%
 
 [temperature]
 label=TEMP
-T_WARN=75
-T_CRIT=95
 
 [memory]
 label=MEM
