@@ -228,6 +228,7 @@ exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agen
 exec --no-startup-id easyeffects --gapplication-service
 exec --no-startup-id pcmanfm --daemon-mode
 exec --no-startup-id nextcloud --background
+exec --no-startup-id redshift $(cat $HOME/.config/redshift/config)
 
 workspace 1 output DP-2
 workspace 2 output DP-2
