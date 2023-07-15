@@ -8,10 +8,6 @@ interval=5
 command=wayweather.py
 interval=3600
 
-[mediaplayer]
-instance=%any,spotify
-signal=10
-
 [cpu_usage]
 label=CPU
 min_width=CPU 100%
