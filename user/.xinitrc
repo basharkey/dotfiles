@@ -27,8 +27,4 @@ if command -v dbus-update-activation-environment >/dev/null 2>&1; then
     dbus-update-activation-environment DISPLAY XAUTHORITY
 fi
 
-xrandr --output DP-1 --mode 1920x1080 --rate 60.00 --pos 0x180
-xrandr --output DP-2 --mode 2560x1440 --rate 99.95 --pos 1920x0 --primary
-xrandr --output DP-7 --mode 1920x1080 --rate 60.00 --pos 4480x180
-
 exec  i3
