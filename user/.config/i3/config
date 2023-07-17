@@ -223,7 +223,10 @@ mode "$mode_system" {
 
 bindsym $mod+Escape mode "$mode_system"
 
+# Great explanation on compositors, vsync, and fixing tearing in X11
+# https://www.youtube.com/watch?v=3esPpe-fclI
 exec --no-startup-id picom -b
+
 exec --no-startup-id dunst
 exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id easyeffects --gapplication-service
