@@ -242,3 +242,9 @@ workspace 5 output DP-2
 workspace 6 output DP-7
 workspace 7 output DP-7
 workspace 8 output DP-7
+
+exec --no-startup-id "i3-msg 'workspace 7; append_layout ~/.config/i3/workspaces/7.json'"
+exec --no-startup-id "i3-msg 'workspace 8; append_layout ~/.config/i3/workspaces/8.json'"
+exec keepassxc
+exec evolution
+exec flatpak run io.github.spacingbat3.webcord
