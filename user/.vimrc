@@ -61,7 +61,7 @@ let g:netrw_liststyle = 3
 " set always visible
 set laststatus=2
 " current git branch (requires fugitive)
-set statusline=%{FugitiveHead()}
+" set statusline=%{FugitiveHead()}
 " current file
 set statusline+=\ %F
 " current line/col
