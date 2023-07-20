@@ -235,7 +235,7 @@ exec --no-startup-id nextcloud --background
 exec --no-startup-id redshift $(cat $HOME/.config/redshift/config)
 exec --no-startup-id flameshot
 
-bindsym $mod+Shift+s flameshot gui
+bindsym $mod+Shift+s exec flameshot gui
 
 workspace 1 output DP-1
 workspace 2 output DP-1
