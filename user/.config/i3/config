@@ -19,7 +19,7 @@ font pango:Noto Sans Mono 11
 
 # Start XDG autostart .desktop files using dex. See also
 # https://wiki.archlinux.org/index.php/XDG_Autostart
-exec --no-startup-id dex-autostart --autostart --environment i3
+# exec --no-startup-id dex-autostart --autostart --environment i3
 
 # The combination of xss-lock, nm-applet and pactl is a popular choice, so
 # they are included here as an example. Modify as you see fit.
@@ -209,10 +209,9 @@ set $Locker i3lock && sleep 1
 
 set $mode_system System (l) lock, (e) exit, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
 mode "$mode_system" {
-    bindsym l exec --no-startup-id $Locker, mode "default"
+    bindsym l exec --no-startup-id $HOME/.config/i3/scripts/locker.sh 10, mode "default"
     bindsym e exec --no-startup-id i3-msg exit, mode "default"
     bindsym s exec --no-startup-id $Locker && systemctl suspend, mode "default"
-    bindsym h exec --no-startup-id $Locker && systemctl hibernate, mode "default"
     bindsym r exec --no-startup-id systemctl reboot, mode "default"
     bindsym Shift+s exec --no-startup-id systemctl poweroff -i, mode "default"
 
@@ -225,7 +224,10 @@ bindsym $mod+Escape mode "$mode_system"
 
 # Great explanation on compositors, vsync, and fixing tearing in X11
 # https://www.youtube.com/watch?v=3esPpe-fclI
-exec --no-startup-id picom -b
+
+# Disabled because picom causes stuttering issues when running mulitple GPU accelerated apps on multiple displays with different refresh rates
+# Disabling doesn't seem to cause tearing issues as long as GPU driver vsync is used
+# exec --no-startup-id picom -b
 
 exec --no-startup-id dunst
 exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
