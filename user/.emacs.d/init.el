@@ -156,8 +156,8 @@ Ignores CHAR at point."
 (global-set-key (kbd "M-Z") 'zap-to-char)
 
 ;; Copy to char
-(global-set-key (kbd "C-z") 'copy-to-char)
-(global-set-key (kbd "C-Z") 'copy-up-to-char)
+(global-set-key (kbd "C-z") 'copy-up-to-char)
+(global-set-key (kbd "C-Z") 'copy-to-char)
 
 ;; Ideas
 ;; In dired pressing 1, 2, or 3 expands dirs using dired-subtree
