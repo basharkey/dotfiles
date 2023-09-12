@@ -61,6 +61,9 @@
 ;; Show tab numbers in tab bar
 (setq tab-bar-tab-hints t)
 
+;; Save existing clipboard text into kill ring before replacing it
+(setq save-interprogram-paste-before-kill t)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -156,8 +159,8 @@ Ignores CHAR at point."
 (global-set-key (kbd "M-Z") 'zap-to-char)
 
 ;; Copy to char
-(global-set-key (kbd "C-z") 'copy-up-to-char)
-(global-set-key (kbd "C-Z") 'copy-to-char)
+(global-set-key (kbd "C-z") 'copy-to-char)
+(global-set-key (kbd "C-Z") 'copy-up-to-char)
 
 ;; Ideas
 ;; In dired pressing 1, 2, or 3 expands dirs using dired-subtree
