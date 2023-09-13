@@ -170,6 +170,10 @@ Ignores CHAR at point."
 	  (lambda()
 	    (local-unset-key (kbd "C-<tab>"))))
 
+;; Open magit diffs in other window
+(define-key magit-hunk-section-map (kbd "RET") 'magit-diff-visit-file-other-window)
+(define-key magit-file-section-map (kbd "RET") 'magit-diff-visit-file-other-window)
+
 ;; Easier keybinds for term mode
 (add-hook 'term-mode-hook
 	  (lambda ()
