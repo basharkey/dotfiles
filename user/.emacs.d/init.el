@@ -1,59 +1,88 @@
-(menu-bar-mode 0)
-(tool-bar-mode 0)
-(scroll-bar-mode 0)
+;; Bootstrap straight package manager
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 6))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
 
-(require 'package)
-(package-initialize)
+;; Prevent package.el from loading
+(setq package-enable-at-startup nil)
 
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/"))
+;; Enable use-package integration
+(straight-use-package 'use-package)
 
-(dolist (package '(use-package))
-  (unless (package-installed-p package)
-    (package-install package)))
+;;
+;; Packages
+;;
 
 (use-package yaml-mode
-  :ensure t
+  :straight t
   :mode ("\\.yml\\'"
 	 "\\.yaml\\'"))
 
 (use-package csv-mode
-  :ensure t)
+  :straight t)
 
 (use-package magit
-  :ensure t)
+  :straight t)
 
 (use-package forge
-  :ensure t
+  :straight t
   :after magit)
 
 (use-package counsel
-  :ensure t
+  :straight t
   :config
   (ivy-mode 1)
   (counsel-mode 1))
 
 ;; (use-package helm
-;;   :ensure t
+;;   :straight t
 ;;   :config (helm-mode 1))
 
-;; backup/autosave
-(setq backup-directory-alist
-      `(("." . ,(concat user-emacs-directory "backups"))))
-(setq auto-save-file-name-transforms
-      `((".*" ,(concat user-emacs-directory "autosave") t)))
-
-(set-face-attribute 'default nil :height 130)
-
-(use-package dired-subtree :ensure t
+(use-package dired-subtree
+  :straight t
   :after dired
   :config
   (bind-key "<tab>" #'dired-subtree-toggle dired-mode-map)
   (bind-key "<backtab>" #'dired-subtree-cycle dired-mode-map))
 
-;; add function to remove leftover whitespace
+(use-package modus-themes
+  :straight t
+  :config
+  (load-theme 'modus-vivendi t))
 
-;; use / to bypass ivy autocomplete for renaming directories
+;; https://www.emacswiki.org/emacs/unbound.el
+(load "~/.emacs.d/unbound.el")
+
+;;
+;; Variables
+;;
+
+;; Turn off bars
+(menu-bar-mode 0)
+(tool-bar-mode 0)
+(scroll-bar-mode 0)
+
+;; Font size
+(set-face-attribute 'default nil :height 130)
+
+;; Backup/autosave
+(setq backup-directory-alist
+      `(("." . ,(concat user-emacs-directory "backups"))))
+(setq auto-save-file-name-transforms
+      `((".*" ,(concat user-emacs-directory "autosave") t)))
+
+;; Function to remove leftover whitespace
+
+;; Use / to bypass ivy autocomplete for renaming directories
 (setq ivy-magic-slash-non-match-action nil)
 
 ;; Enable C-<number> to select tabs by tab number
@@ -64,20 +93,9 @@
 ;; Save existing clipboard text into kill ring before replacing it
 (setq save-interprogram-paste-before-kill t)
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-enabled-themes '(wombat)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-
+;;
 ;; Custom functions
+;;
 
 ;; http://emacs-fu.blogspot.com/2009/11/copying-lines-without-selecting-them.html
 (defun copy-line()
@@ -135,7 +153,11 @@ Ignores CHAR at point."
 ;;
 
 ;; Quick ansi-term
-(global-set-key (kbd "C-x a") 'quick-ansi-term)
+;; (global-set-key (kbd "C-x a") 'quick-ansi-term)
+(global-set-key (kbd "C-x a") 'ansi-term)
+
+;; eshell
+(global-set-key (kbd "C-x y") 'eshell)
 
 ;; Copy line
 (global-set-key (kbd "C-x w") 'copy-line)
@@ -150,9 +172,9 @@ Ignores CHAR at point."
 
 ;; Easier keybinds for term mode
 (add-hook 'term-mode-hook
-  (lambda ()
-    (define-key term-raw-map (kbd "M-j") 'term-line-mode)
-    (define-key term-mode-map (kbd "M-k") 'term-char-mode)))
+	  (lambda ()
+	    (define-key term-raw-map (kbd "M-j") 'term-line-mode)
+	    (define-key term-mode-map (kbd "M-k") 'term-char-mode)))
 
 ;; Rebind zap to char
 (global-set-key (kbd "M-z") 'zap-up-to-char)
