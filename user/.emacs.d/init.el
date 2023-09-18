@@ -113,7 +113,8 @@
 
 (defun quick-ansi-term()
   (interactive)
-  (ansi-term shell-file-name (concat "ansi-term" " " default-directory)))
+  ;; (ansi-term shell-file-name (concat "ansi-term" " " default-directory)))
+  (ansi-term shell-file-name (concat "ansi-term")))
 
 (defun copy-to-char (arg char)
   "`king-ring-save' up to and including ARGth occurrence of CHAR.
@@ -148,16 +149,35 @@ Ignores CHAR at point."
 		     (backward-char direction))
 		   (point)))))
 
+;; Create new eshell buffer
+(defun new-eshell ()
+  (interactive)
+  (setq current-prefix-arg '(4)) ; C-u
+  (call-interactively 'eshell))
+
+;; Load bash aliases into eshell
+(defun eshell-load-bash-aliases ()
+  "Read Bash aliases and add them to the list of eshell aliases."
+  ;; Bash needs to be run - temporarily - interactively
+  ;; in order to get the list of aliases.
+  (with-temp-buffer
+    (call-process "bash" nil '(t nil) nil "-ci" "alias")
+    (goto-char (point-min))
+    (while (re-search-forward "alias \\(.+\\)='\\(.+\\)'$" nil t)
+      (eshell/alias (match-string 1) (match-string 2)))))
+;; We only want Bash aliases to be loaded when Eshell loads its own aliases,
+;; rather than every time `eshell-mode' is enabled.
+(add-hook 'eshell-alias-load-hook 'eshell-load-bash-aliases)
+
 ;;
 ;; Custom keybindings
 ;;
 
 ;; Quick ansi-term
-;; (global-set-key (kbd "C-x a") 'quick-ansi-term)
-(global-set-key (kbd "C-x a") 'ansi-term)
+(global-set-key (kbd "C-x a") 'quick-ansi-term)
 
-;; eshell
-(global-set-key (kbd "C-x y") 'eshell)
+;; New eshell
+(global-set-key (kbd "C-x y") 'new-eshell)
 
 ;; Copy line
 (global-set-key (kbd "C-x w") 'copy-line)
@@ -167,7 +187,7 @@ Ignores CHAR at point."
 
 ;; Remove C-<tab> keybinding from magit so it doesn't conflict with tab-bar-switch-to-next-tab
 (add-hook 'magit-mode-hook
-	  (lambda()
+	  (lambda ()
 	    (local-unset-key (kbd "C-<tab>"))))
 
 ;; Open magit diffs in other window
@@ -182,11 +202,11 @@ Ignores CHAR at point."
 
 ;; Rebind zap to char
 (global-set-key (kbd "M-z") 'zap-up-to-char)
-(global-set-key (kbd "M-Z") 'zap-to-char)
+(global-set-key (kbd "M-S-z") 'zap-to-char)
 
 ;; Copy to char
-(global-set-key (kbd "C-z") 'copy-to-char)
-(global-set-key (kbd "C-Z") 'copy-up-to-char)
+(global-set-key (kbd "C-z") 'copy-up-to-char)
+(global-set-key (kbd "C-S-z") 'copy-to-char)
 
 ;; Ideas
 ;; In dired pressing 1, 2, or 3 expands dirs using dired-subtree
