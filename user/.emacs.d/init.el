@@ -54,13 +54,19 @@
   (bind-key "<tab>" #'dired-subtree-toggle dired-mode-map)
   (bind-key "<backtab>" #'dired-subtree-cycle dired-mode-map))
 
+;; Check out ace zap mode
+(use-package ace-jump-mode
+  :straight t
+  :config
+  (bind-key "C-c SPC" #'ace-jump-mode global-map))
+
 (use-package modus-themes
   :straight t
   :config
   (load-theme 'modus-vivendi t))
 
 ;; https://www.emacswiki.org/emacs/unbound.el
-(load "~/.emacs.d/unbound.el")
+(load (concat user-emacs-directory "unbound.el"))
 
 ;;
 ;; Variables
@@ -74,11 +80,15 @@
 ;; Font size
 (set-face-attribute 'default nil :height 130)
 
-;; Backup/autosave
-(setq backup-directory-alist
-      `(("." . ,(concat user-emacs-directory "backups"))))
-(setq auto-save-file-name-transforms
-      `((".*" ,(concat user-emacs-directory "autosave") t)))
+;; Stop Emacs from littering with backups and autosave
+(make-directory (concat user-emacs-directory "backups") t)
+(setq backup-directory-alist `(("." . ,(concat user-emacs-directory "backups"))))
+
+(make-directory (concat user-emacs-directory "autosave") t)
+(setq auto-save-file-name-transforms `((".*" ,(concat user-emacs-directory "autosave") t)))
+
+;; Treat sentences as ending with a single space
+(setq sentence-end-double-space nil)
 
 ;; Function to remove leftover whitespace
 
@@ -96,6 +106,11 @@
 ;;
 ;; Custom functions
 ;;
+
+(defun load-user-init-file()
+  "Evaluate `user-init-file'"
+  (interactive)
+  (load-file user-init-file))
 
 ;; http://emacs-fu.blogspot.com/2009/11/copying-lines-without-selecting-them.html
 (defun copy-line()
@@ -169,9 +184,20 @@ Ignores CHAR at point."
 ;; rather than every time `eshell-mode' is enabled.
 (add-hook 'eshell-alias-load-hook 'eshell-load-bash-aliases)
 
+;; Toggle between line and char mode in term
+(defun term-toggle-mode ()
+  (interactive)
+  (if (term-in-line-mode)
+      (term-char-mode)
+    (term-line-mode)))
+
 ;;
 ;; Custom keybindings
 ;;
+
+;; Load init file
+(global-set-key (kbd "C-c r") 'load-user-init-file)
+(global-set-key (kbd "C-c C-r") 'load-user-init-file)
 
 ;; Quick ansi-term
 (global-set-key (kbd "C-x a") 'quick-ansi-term)
@@ -200,6 +226,13 @@ Ignores CHAR at point."
 	    (define-key term-raw-map (kbd "M-j") 'term-line-mode)
 	    (define-key term-mode-map (kbd "M-k") 'term-char-mode)))
 
+
+;; Toggle between line and char mode in term
+(add-hook 'term-mode-hook
+	  (lambda ()
+	    (define-key term-raw-map (kbd "M-n") 'term-toggle-mode)
+	    (define-key term-mode-map (kbd "M-n") 'term-toggle-mode)))
+
 ;; Rebind zap to char
 (global-set-key (kbd "M-z") 'zap-up-to-char)
 (global-set-key (kbd "M-S-z") 'zap-to-char)
@@ -207,6 +240,10 @@ Ignores CHAR at point."
 ;; Copy to char
 (global-set-key (kbd "C-z") 'copy-up-to-char)
 (global-set-key (kbd "C-S-z") 'copy-to-char)
+
+;; rgrep
+(global-set-key (kbd "C-c f") 'rgrep)
+(global-set-key (kbd "C-c C-f") 'rgrep)
 
 ;; Ideas
 ;; In dired pressing 1, 2, or 3 expands dirs using dired-subtree
