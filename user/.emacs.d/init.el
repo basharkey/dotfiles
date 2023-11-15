@@ -252,13 +252,14 @@ Ignores CHAR at point."
 ;; rgrep
 (global-set-key (kbd "C-c f") 'rgrep)
 
-;; Ideas
-;; In dired pressing 1, 2, or 3 expands dirs using dired-subtree
-;; 1 expand dirs depth 1, 2 expand dirs depth2
-;; kinda like magit 1, 2, or 3
-;; Better ansi-term keybinding
 (global-set-key (kbd "C-c y") 'term-paste)
 
 ;; Custom yank
 (global-set-key (kbd "C-y") 'bs/yank)
 (global-set-key (kbd "C-S-y") 'yank)
+
+;; Ideas
+;; In dired pressing 1, 2, or 3 expands dirs using dired-subtree
+;; 1 expand dirs depth 1, 2 expand dirs depth2
+;; kinda like magit 1, 2, or 3
+;; Better ansi-term keybinding
