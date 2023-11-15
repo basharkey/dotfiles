@@ -27,6 +27,9 @@
   :mode ("\\.yml\\'"
 	 "\\.yaml\\'"))
 
+(use-package terraform-mode
+  :straight t)
+
 (use-package csv-mode
   :straight t)
 
@@ -58,7 +61,7 @@
 (use-package ace-jump-mode
   :straight t
   :config
-  (bind-key "C-c SPC" #'ace-jump-mode global-map))
+  (bind-key "M-o" #'ace-jump-mode global-map))
 
 (use-package modus-themes
   :straight t
@@ -191,19 +194,25 @@ Ignores CHAR at point."
       (term-char-mode)
     (term-line-mode)))
 
+(defun bs/yank ()
+  "Call yank, then auto-indent the yanked region"
+  (interactive)
+  (let ((point-before (point)))
+    (yank)
+    (indent-region point-before (point))))
+
 ;;
 ;; Custom keybindings
 ;;
 
 ;; Load init file
 (global-set-key (kbd "C-c r") 'load-user-init-file)
-(global-set-key (kbd "C-c C-r") 'load-user-init-file)
 
 ;; Quick ansi-term
 (global-set-key (kbd "C-x a") 'quick-ansi-term)
 
 ;; New eshell
-(global-set-key (kbd "C-x y") 'new-eshell)
+(global-set-key (kbd "C-c e") 'new-eshell)
 
 ;; Copy line
 (global-set-key (kbd "C-x w") 'copy-line)
@@ -226,7 +235,6 @@ Ignores CHAR at point."
 	    (define-key term-raw-map (kbd "M-j") 'term-line-mode)
 	    (define-key term-mode-map (kbd "M-k") 'term-char-mode)))
 
-
 ;; Toggle between line and char mode in term
 (add-hook 'term-mode-hook
 	  (lambda ()
@@ -243,9 +251,14 @@ Ignores CHAR at point."
 
 ;; rgrep
 (global-set-key (kbd "C-c f") 'rgrep)
-(global-set-key (kbd "C-c C-f") 'rgrep)
 
 ;; Ideas
 ;; In dired pressing 1, 2, or 3 expands dirs using dired-subtree
 ;; 1 expand dirs depth 1, 2 expand dirs depth2
 ;; kinda like magit 1, 2, or 3
+;; Better ansi-term keybinding
+(global-set-key (kbd "C-c y") 'term-paste)
+
+;; Custom yank
+(global-set-key (kbd "C-y") 'bs/yank)
+(global-set-key (kbd "C-S-y") 'yank)
