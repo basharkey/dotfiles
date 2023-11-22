@@ -106,6 +106,12 @@
 ;; Save existing clipboard text into kill ring before replacing it
 (setq save-interprogram-paste-before-kill t)
 
+;; Disable scratch message
+(setq initial-scratch-message nil)
+
+;; Auto pair for quotes and brackets
+(setq electric-pair-mode t)
+
 ;;
 ;; Custom functions
 ;;
@@ -252,14 +258,29 @@ Ignores CHAR at point."
 ;; rgrep
 (global-set-key (kbd "C-c f") 'rgrep)
 
+;; Better ansi-term keybinding
 (global-set-key (kbd "C-c y") 'term-paste)
 
 ;; Custom yank
 (global-set-key (kbd "C-y") 'bs/yank)
 (global-set-key (kbd "C-S-y") 'yank)
 
+;; windmove keymap
+(defvar windmove-leader-map (make-sparse-keymap)
+  "Prefix binding for windmove functions")
+(global-set-key (kbd "C-c 1") windmove-leader-map)
+
+(define-key windmove-leader-map (kbd "f") 'windmove-right)
+(define-key windmove-leader-map (kbd "b") 'windmove-left)
+(define-key windmove-leader-map (kbd "p") 'windmove-up)
+(define-key windmove-leader-map (kbd "n") 'windmove-down)
+
+(define-key windmove-leader-map (kbd "F") 'windmove-swap-states-right)
+(define-key windmove-leader-map (kbd "B") 'windmove-swap-states-left)
+(define-key windmove-leader-map (kbd "P") 'windmove-swap-states-up)
+(define-key windmove-leader-map (kbd "N") 'windmove-swap-states-down)
+
 ;; Ideas
 ;; In dired pressing 1, 2, or 3 expands dirs using dired-subtree
 ;; 1 expand dirs depth 1, 2 expand dirs depth2
 ;; kinda like magit 1, 2, or 3
-;; Better ansi-term keybinding
