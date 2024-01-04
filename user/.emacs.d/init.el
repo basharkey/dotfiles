@@ -81,7 +81,7 @@
 (scroll-bar-mode 0)
 
 ;; Font size
-(set-face-attribute 'default nil :height 130)
+(set-face-attribute 'default nil :height 150)
 
 ;; Stop Emacs from littering with backups and autosave
 (make-directory (concat user-emacs-directory "backups") t)

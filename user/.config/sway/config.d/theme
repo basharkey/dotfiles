@@ -1,5 +1,5 @@
 # fixes emojis by making title bars bigger
-font pango: Noto Sans Mono 11
+font pango: Noto Sans Mono 13
 
 exec_always {
     # gtk theme
