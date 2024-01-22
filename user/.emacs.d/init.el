@@ -33,6 +33,9 @@
 (use-package csv-mode
   :straight t)
 
+(use-package sqlite3
+  :straight t)
+
 (use-package magit
   :straight t)
 
@@ -45,6 +48,12 @@
   :config
   (ivy-mode 1)
   (counsel-mode 1))
+
+(use-package ivy-prescient
+  :straight t
+  :after counsel
+  :config
+  (ivy-prescient-mode 1))
 
 ;; (use-package helm
 ;;   :straight t
@@ -93,17 +102,16 @@
 ;; Treat sentences as ending with a single space
 (setq sentence-end-double-space nil)
 
-;; Function to remove leftover whitespace
-
 ;; Use / to bypass ivy autocomplete for renaming directories
 (setq ivy-magic-slash-non-match-action nil)
 
 ;; Enable C-<number> to select tabs by tab number
 (setq tab-bar-select-tab-modifiers '(control))
+
 ;; Show tab numbers in tab bar
 (setq tab-bar-tab-hints t)
 
-;; Save existing clipboard text into kill ring before replacing it
+;; Save existing clipboard value into kill ring before replacing it
 (setq save-interprogram-paste-before-kill t)
 
 ;; Disable scratch message
@@ -112,9 +120,28 @@
 ;; Auto pair for quotes and brackets
 (setq electric-pair-mode t)
 
+;; Enables usage of minibuffers in minibuffers, such as calling counsel-yank-pop while performing a query-replace
+(setq enable-recursive-minibuffers t)
+
+;; Don't prompt when killing buffer with running process
+(setq kill-buffer-query-functions (delq 'process-kill-buffer-query-function kill-buffer-query-functions))
+
 ;;
 ;; Custom functions
 ;;
+
+(defun bs/generate-new-term-buffer-name (base-name)
+  " Check if buffer with name BASE-NAME + NUM exists starting at 1.
+If so increment NUM by 1 to generate a new unique buffer name."
+  (let ((num 1))
+    (while (get-buffer (concat "*" base-name (number-to-string num) "*"))
+      (setq num (+ num 1)))
+    (concat base-name (number-to-string num))))
+
+(defun bs/ansi-term ()
+  (interactive)
+  ;; (ansi-term shell-file-name (concat "ansi-term" " " default-directory)))
+  (ansi-term shell-file-name (bs/generate-new-term-buffer-name "at")))
 
 (defun load-user-init-file()
   "Evaluate `user-init-file'"
@@ -134,11 +161,6 @@
   (back-to-indentation)
   (copy-region-as-kill (point) (line-end-position))
   (goto-char x))
-
-(defun quick-ansi-term()
-  (interactive)
-  ;; (ansi-term shell-file-name (concat "ansi-term" " " default-directory)))
-  (ansi-term shell-file-name (concat "ansi-term")))
 
 (defun copy-to-char (arg char)
   "`king-ring-save' up to and including ARGth occurrence of CHAR.
@@ -214,8 +236,8 @@ Ignores CHAR at point."
 ;; Load init file
 (global-set-key (kbd "C-c r") 'load-user-init-file)
 
-;; Quick ansi-term
-(global-set-key (kbd "C-x a") 'quick-ansi-term)
+;; bs/ansi-term
+(global-set-key (kbd "C-x a") 'bs/ansi-term)
 
 ;; New eshell
 (global-set-key (kbd "C-c e") 'new-eshell)
@@ -262,8 +284,7 @@ Ignores CHAR at point."
 (global-set-key (kbd "C-c y") 'term-paste)
 
 ;; Custom yank
-(global-set-key (kbd "C-y") 'bs/yank)
-(global-set-key (kbd "C-S-y") 'yank)
+(global-set-key (kbd "C-S-y") 'bs/yank)
 
 ;; windmove keymap
 (defvar windmove-leader-map (make-sparse-keymap)
