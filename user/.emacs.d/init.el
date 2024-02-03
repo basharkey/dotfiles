@@ -70,7 +70,19 @@
 (use-package ace-jump-mode
   :straight t
   :config
-  (bind-key "M-o" #'ace-jump-mode global-map))
+  (bind-key "M-o" #'ace-jump-mode global-map)
+  ;; Optimized jump keys for halmak keyboard layout
+  (setq ace-jump-mode-move-keys
+	(nconc '(?t ?n ?h ?s ?a ?e ?o ?i)
+	       '(?b ?r ?l ?w ?q ?u ?d ?j)
+	       '(?c ?v ?m ?f ?p ?x ?k ?y)
+	       '(?T ?N ?H ?S ?A ?E ?O ?I)
+	       '(?B ?R ?L ?W ?Q ?U ?D ?J)
+	       '(?C ?V ?M ?F ?P ?X ?K ?Y))))
+
+(use-package restclient
+  :straight t
+  :mode ("\\.rstc\\'" . restclient-mode))
 
 (use-package modus-themes
   :straight t
@@ -118,13 +130,16 @@
 (setq initial-scratch-message nil)
 
 ;; Auto pair for quotes and brackets
-(setq electric-pair-mode t)
+(electric-pair-mode t)
 
 ;; Enables usage of minibuffers in minibuffers, such as calling counsel-yank-pop while performing a query-replace
 (setq enable-recursive-minibuffers t)
 
 ;; Don't prompt when killing buffer with running process
 (setq kill-buffer-query-functions (delq 'process-kill-buffer-query-function kill-buffer-query-functions))
+
+;; Enable upcase-region command
+(put 'upcase-region 'disabled nil)
 
 ;;
 ;; Custom functions
