@@ -55,7 +55,9 @@
 (use-package ivy
   :straight t
   :config
-  (ivy-mode 1))
+  (ivy-mode 1)
+  :bind (:map ivy-minibuffer-map
+	      ("<tab>" . ivy-alt-done)))
 
 (use-package ivy-prescient
   :straight t
@@ -67,8 +69,8 @@
   :straight t
   :after dired
   :bind (:map dired-mode-map
-	 ("<tab>" . dired-subtree-toggle)
-	 ("<backtab>" . dired-subtree-cycle)))
+	      ("<tab>" . dired-subtree-toggle)
+	      ("<backtab>" . dired-subtree-cycle)))
 
 (use-package avy
   :straight t
