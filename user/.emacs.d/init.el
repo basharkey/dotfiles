@@ -1,96 +1,4 @@
-;; Bootstrap straight package manager
-(defvar bootstrap-version)
-(let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 6))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
-
-;; Prevent package.el from loading
-(setq package-enable-at-startup nil)
-
-;; Enable use-package integration
-(straight-use-package 'use-package)
-
-;;
-;; Packages
-;;
-
-(use-package yaml-mode
-  :straight t
-  :mode ("\\.yml\\'"
-	 "\\.yaml\\'"))
-
-(use-package terraform-mode
-  :straight t)
-
-(use-package csv-mode
-  :straight t)
-
-(use-package sqlite3
-  :straight t)
-
-(use-package magit
-  :straight t)
-
-(use-package forge
-  :straight t
-  :after magit)
-
-(use-package counsel
-  :straight t
-  :config
-  (ivy-mode 1)
-  (counsel-mode 1))
-
-(use-package ivy-prescient
-  :straight t
-  :after counsel
-  :config
-  (ivy-prescient-mode 1))
-
-;; (use-package helm
-;;   :straight t
-;;   :config (helm-mode 1))
-
-(use-package dired-subtree
-  :straight t
-  :after dired
-  :config
-  (bind-key "<tab>" #'dired-subtree-toggle dired-mode-map)
-  (bind-key "<backtab>" #'dired-subtree-cycle dired-mode-map))
-
-;; Check out ace zap mode
-(use-package ace-jump-mode
-  :straight t
-  :config
-  (bind-key "M-o" #'ace-jump-mode global-map)
-  ;; Optimized jump keys for halmak keyboard layout
-  (setq ace-jump-mode-move-keys
-	(nconc '(?t ?n ?h ?s ?a ?e ?o ?i)
-	       '(?b ?r ?l ?w ?q ?u ?d ?j)
-	       '(?c ?v ?m ?f ?p ?x ?k ?y)
-	       '(?T ?N ?H ?S ?A ?E ?O ?I)
-	       '(?B ?R ?L ?W ?Q ?U ?D ?J)
-	       '(?C ?V ?M ?F ?P ?X ?K ?Y))))
-
-(use-package restclient
-  :straight t
-  :mode ("\\.rstc\\'" . restclient-mode))
-
-(use-package modus-themes
-  :straight t
-  :config
-  (load-theme 'modus-vivendi t))
-
-;; https://www.emacswiki.org/emacs/unbound.el
-(load (concat user-emacs-directory "unbound.el"))
+(load (concat user-emacs-directory "packages.el"))
 
 ;;
 ;; Variables
@@ -130,7 +38,7 @@
 (setq initial-scratch-message nil)
 
 ;; Auto pair for quotes and brackets
-(electric-pair-mode t)
+(electric-pair-mode 1)
 
 ;; Enables usage of minibuffers in minibuffers, such as calling counsel-yank-pop while performing a query-replace
 (setq enable-recursive-minibuffers t)
@@ -140,6 +48,14 @@
 
 ;; Enable upcase-region command
 (put 'upcase-region 'disabled nil)
+
+;; Show match numbers in the search prompt
+(setq isearch-lazy-count t)
+
+;; -A List all but do not list implied . and ..
+;; -h Human readable sizes
+;; -t Sort by time, newest first
+(setq dired-listing-switches "-lAht --group-directories-first")
 
 ;;
 ;; Custom functions
@@ -164,10 +80,31 @@ If so increment NUM by 1 to generate a new unique buffer name."
   (load-file user-init-file))
 
 ;; http://emacs-fu.blogspot.com/2009/11/copying-lines-without-selecting-them.html
-(defun copy-line()
-  (interactive)
-  (message "Copied line")
-  (copy-region-as-kill (line-beginning-position) (line-end-position)))
+;; (defun copy-line()
+;;   (interactive)
+;;   (message "Copied line")
+;;   (copy-region-as-kill (line-beginning-position) (line-end-position)))
+
+(defun copy-line (arg)
+  "Copy lines (as many as prefix argument) in the kill ring.
+    Ease of use features:
+    - Move to start of next line.
+    - Appends the copy on sequential calls.
+    - Use newline as last char even on the last line of the buffer.
+    - If region is active, copy its lines."
+  (interactive "p")
+  (let ((beg (line-beginning-position))
+	(end (line-end-position arg)))
+    (when mark-active
+      (if (> (point) (mark))
+	  (setq beg (save-excursion (goto-char (mark)) (line-beginning-position)))
+	(setq end (save-excursion (goto-char (mark)) (line-end-position)))))
+    (if (eq last-command 'copy-line)
+	(kill-append (buffer-substring beg end) (< end beg))
+      (kill-ring-save beg end)))
+  (kill-append "\n" nil)
+  (beginning-of-line (or (and arg (1+ arg)) 2))
+  (if (and arg (not (= 1 arg))) (message "%d lines copied" arg)))
 
 (defun copy-line-no-whitespace()
   (interactive)
@@ -244,12 +181,20 @@ Ignores CHAR at point."
     (yank)
     (indent-region point-before (point))))
 
+;; Source: https://www.emacswiki.org/emacs/misc-cmds.el
+(defun revert-buffer-no-confirm ()
+    "Revert buffer without confirmation."
+    (interactive)
+    (revert-buffer :ignore-auto :noconfirm))
+
 ;;
 ;; Custom keybindings
 ;;
 
 ;; Load init file
 (global-set-key (kbd "C-c r") 'load-user-init-file)
+
+(global-set-key (kbd "C-c l") 'revert-buffer-no-confirm)
 
 ;; bs/ansi-term
 (global-set-key (kbd "C-x a") 'bs/ansi-term)
