@@ -1,66 +1,16 @@
 (load (concat user-emacs-directory "packages.el"))
+(load (concat user-emacs-directory "vars.el"))
 
-;;
-;; Variables
-;;
-
-;; Turn off bars
-(menu-bar-mode 0)
-(tool-bar-mode 0)
-(scroll-bar-mode 0)
-
-;; Font size
-(set-face-attribute 'default nil :height 150)
-
-;; Stop Emacs from littering with backups and autosave
-(make-directory (concat user-emacs-directory "backups") t)
-(setq backup-directory-alist `(("." . ,(concat user-emacs-directory "backups"))))
-
-(make-directory (concat user-emacs-directory "autosave") t)
-(setq auto-save-file-name-transforms `((".*" ,(concat user-emacs-directory "autosave") t)))
-
-;; Treat sentences as ending with a single space
-(setq sentence-end-double-space nil)
-
-;; Use / to bypass ivy autocomplete for renaming directories
-(setq ivy-magic-slash-non-match-action nil)
-
-;; Enable C-<number> to select tabs by tab number
-(setq tab-bar-select-tab-modifiers '(control))
-
-;; Show tab numbers in tab bar
-(setq tab-bar-tab-hints t)
-
-;; Save existing clipboard value into kill ring before replacing it
-(setq save-interprogram-paste-before-kill t)
-
-;; Disable scratch message
-(setq initial-scratch-message nil)
-
-;; Auto pair for quotes and brackets
-(electric-pair-mode 1)
-
-;; Enables usage of minibuffers in minibuffers, such as calling counsel-yank-pop while performing a query-replace
-(setq enable-recursive-minibuffers t)
-
-;; Don't prompt when killing buffer with running process
-(setq kill-buffer-query-functions (delq 'process-kill-buffer-query-function kill-buffer-query-functions))
-
-;; Enable upcase-region command
-(put 'upcase-region 'disabled nil)
-
-;; Show match numbers in the search prompt
-(setq isearch-lazy-count t)
-
-;; -A List all but do not list implied . and ..
-;; -h Human readable sizes
-;; -t Sort by time, newest first
-(setq dired-listing-switches "-lAht --group-directories-first")
-
-;;
-;; Custom functions
-;;
-
+(defun scroll-down-center ()
+  (interactive)
+  (scroll-down)
+  (move-to-window-line nil))
+    
+(defun scroll-up-center ()
+  (interactive)
+  (scroll-up)
+  (move-to-window-line nil))
+    
 (defun bs/generate-new-term-buffer-name (base-name)
   " Check if buffer with name BASE-NAME + NUM exists starting at 1.
 If so increment NUM by 1 to generate a new unique buffer name."
@@ -78,12 +28,6 @@ If so increment NUM by 1 to generate a new unique buffer name."
   "Evaluate `user-init-file'"
   (interactive)
   (load-file user-init-file))
-
-;; http://emacs-fu.blogspot.com/2009/11/copying-lines-without-selecting-them.html
-;; (defun copy-line()
-;;   (interactive)
-;;   (message "Copied line")
-;;   (copy-region-as-kill (line-beginning-position) (line-end-position)))
 
 (defun copy-line (arg)
   "Copy lines (as many as prefix argument) in the kill ring.
@@ -105,14 +49,6 @@ If so increment NUM by 1 to generate a new unique buffer name."
   (kill-append "\n" nil)
   (beginning-of-line (or (and arg (1+ arg)) 2))
   (if (and arg (not (= 1 arg))) (message "%d lines copied" arg)))
-
-(defun copy-line-no-whitespace()
-  (interactive)
-  (message "Copied line (without whitespace)")
-  (setq x (point))
-  (back-to-indentation)
-  (copy-region-as-kill (point) (line-end-position))
-  (goto-char x))
 
 (defun copy-to-char (arg char)
   "`king-ring-save' up to and including ARGth occurrence of CHAR.
@@ -174,77 +110,75 @@ Ignores CHAR at point."
       (term-char-mode)
     (term-line-mode)))
 
-(defun bs/yank ()
-  "Call yank, then auto-indent the yanked region"
-  (interactive)
-  (let ((point-before (point)))
-    (yank)
-    (indent-region point-before (point))))
-
 ;; Source: https://www.emacswiki.org/emacs/misc-cmds.el
 (defun revert-buffer-no-confirm ()
     "Revert buffer without confirmation."
     (interactive)
     (revert-buffer :ignore-auto :noconfirm))
 
+(defun bs/evil-paste-pop (count)
+  "Replace the just-yanked stretch of killed text with a different stretch.
+If this command is not run immediatly after a `yank',
+`evil-paste-before', `evil-paste-after' or `evil-paste-pop',
+then invoke `counsel-yank-pop' instead.
+This command uses the same paste command as before, i.e., when
+used after `evil-paste-after' the new text is also yanked using
+`evil-paste-after', used with the same paste-count argument.
+
+The COUNT argument inserts the COUNTth previous kill.  If COUNT
+is negative this is a more recent kill."
+  (interactive "p")
+  (unless (memq last-command
+                '(evil-paste-after
+                  evil-paste-before
+                  evil-visual-paste))
+    (counsel-yank-pop))
+  (unless evil-last-paste
+    (user-error "Previous paste command used a register"))
+  (evil-undo-pop)
+  (goto-char (nth 2 evil-last-paste))
+  (setq this-command (nth 0 evil-last-paste))
+  ;; use temporary kill-ring, so the paste cannot modify it
+  (let ((kill-ring (list (current-kill
+                          (if (and (> count 0) (nth 5 evil-last-paste))
+                              ;; if was visual paste then skip the
+                              ;; text that has been replaced
+                              (1+ count)
+                            count))))
+        (kill-ring-yank-pointer kill-ring))
+    (when (eq last-command 'evil-visual-paste)
+      (let ((evil-no-display t))
+        (evil-visual-restore)))
+    (funcall (nth 0 evil-last-paste) (nth 1 evil-last-paste))
+    ;; if this was a visual paste, then mark the last paste as NOT
+    ;; being the first visual paste
+    (when (eq last-command 'evil-visual-paste)
+      (setcdr (nthcdr 4 evil-last-paste) nil))))
+
 ;;
 ;; Custom keybindings
 ;;
 
-;; Load init file
+(global-set-key (kbd "M-y") 'bs/evil-paste-pop)
+
 (global-set-key (kbd "C-c r") 'load-user-init-file)
-
 (global-set-key (kbd "C-c l") 'revert-buffer-no-confirm)
-
-;; bs/ansi-term
-(global-set-key (kbd "C-x a") 'bs/ansi-term)
-
-;; New eshell
 (global-set-key (kbd "C-c e") 'new-eshell)
+(global-set-key (kbd "C-c f") 'rgrep)
+(global-set-key (kbd "C-c y") 'term-paste)
 
-;; Copy line
+(global-set-key (kbd "C-x a") 'bs/ansi-term)
 (global-set-key (kbd "C-x w") 'copy-line)
-(global-set-key (kbd "C-x W") 'copy-line-no-whitespace)
-
 (global-set-key (kbd "C-x G") 'magit-clone)
 
-;; Remove C-<tab> keybinding from magit so it doesn't conflict with tab-bar-switch-to-next-tab
-(add-hook 'magit-mode-hook
-	  (lambda ()
-	    (local-unset-key (kbd "C-<tab>"))))
-
-;; Open magit diffs in other window
-(define-key magit-hunk-section-map (kbd "RET") 'magit-diff-visit-file-other-window)
-(define-key magit-file-section-map (kbd "RET") 'magit-diff-visit-file-other-window)
-
-;; Easier keybinds for term mode
-(add-hook 'term-mode-hook
-	  (lambda ()
-	    (define-key term-raw-map (kbd "M-j") 'term-line-mode)
-	    (define-key term-mode-map (kbd "M-k") 'term-char-mode)))
-
-;; Toggle between line and char mode in term
-(add-hook 'term-mode-hook
-	  (lambda ()
-	    (define-key term-raw-map (kbd "M-n") 'term-toggle-mode)
-	    (define-key term-mode-map (kbd "M-n") 'term-toggle-mode)))
-
-;; Rebind zap to char
 (global-set-key (kbd "M-z") 'zap-up-to-char)
 (global-set-key (kbd "M-S-z") 'zap-to-char)
 
-;; Copy to char
 (global-set-key (kbd "C-z") 'copy-up-to-char)
 (global-set-key (kbd "C-S-z") 'copy-to-char)
 
-;; rgrep
-(global-set-key (kbd "C-c f") 'rgrep)
-
-;; Better ansi-term keybinding
-(global-set-key (kbd "C-c y") 'term-paste)
-
-;; Custom yank
-(global-set-key (kbd "C-S-y") 'bs/yank)
+(global-set-key (kbd "<prior>") 'scroll-down-center)
+(global-set-key (kbd "<next>") 'scroll-up-center)
 
 ;; windmove keymap
 (defvar windmove-leader-map (make-sparse-keymap)
@@ -260,6 +194,22 @@ Ignores CHAR at point."
 (define-key windmove-leader-map (kbd "B") 'windmove-swap-states-left)
 (define-key windmove-leader-map (kbd "P") 'windmove-swap-states-up)
 (define-key windmove-leader-map (kbd "N") 'windmove-swap-states-down)
+
+;; Open magit diffs in other window
+(define-key magit-hunk-section-map (kbd "RET") 'magit-diff-visit-file-other-window)
+(define-key magit-file-section-map (kbd "RET") 'magit-diff-visit-file-other-window)
+
+;; Toggle between line and char mode in term
+(add-hook 'term-mode-hook
+	  (lambda ()
+	    (define-key term-raw-map (kbd "M-k") 'term-toggle-mode)
+	    (define-key term-mode-map (kbd "M-k") 'term-toggle-mode)))
+
+;; https://www.masteringemacs.org/article/how-to-get-started-tree-sitter
+;; bind `function.outer`(entire function block) to `f` for use in things like `vaf`, `yaf`
+;; (define-key evil-outer-text-objects-map "f" (evil-textobj-tree-sitter-get-textobj "function.outer"))
+;; bind `function.inner`(function block without name and args) to `f` for use in things like `vif`, `yif`
+;; (define-key evil-inner-text-objects-map "f" (evil-textobj-tree-sitter-get-textobj "function.inner"))
 
 ;; Ideas
 ;; In dired pressing 1, 2, or 3 expands dirs using dired-subtree

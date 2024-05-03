@@ -86,21 +86,22 @@
 	       ;; '(?B ?R ?L ?Q ?U ?D)
                ;; '(?C ?V ?M ?P ?X ?K)
   :bind (("M-o" . avy-goto-word-1)
-	 :prefix-map avy-prefix-map
-	 :prefix-docstring "avy prefix map"
-	 :prefix "M-p"
-	 ("M-c" . avy-goto-char)
-	 ("M-g" . avy-goto-line)))
+	 ("M-p" . avy-goto-char)))
+	 ;; :prefix-map avy-prefix-map
+	 ;; :prefix-docstring "avy prefix map"
+	 ;; :prefix "M-p"
+	 ;; ("M-c" . avy-goto-char)
+	 ;; ("M-g" . avy-goto-line)))
 
 (use-package restclient
   :straight t
   :mode ("\\.rstc\\'" . restclient-mode)
   :hook (restclient-mode . (lambda () (setq tab-width 2))))
 
-(use-package expand-region
-  :straight t
-  :bind (("C-=" . er/expand-region)
-	 ("C-'" . er/mark-inside-quotes)))
+;; (use-package expand-region
+;;   :straight t
+;;   :bind (("C-=" . er/expand-region)
+;; 	 ("C-'" . er/mark-inside-quotes)))
 
 (use-package modus-themes
   :straight t
@@ -109,3 +110,33 @@
 
 (use-package unbound
   :straight t)
+
+(use-package evil
+  :straight t
+  :init
+  (setq evil-want-keybinding nil)
+  :bind (:map evil-normal-state-map
+	      ("M-y" . 'bs/evil-paste-pop))
+  :config
+  (evil-mode 1))
+  ;; (evil-set-initial-state 'term-mode 'emacs))
+
+;; Evil bindings for everything else including term-mode
+(use-package evil-collection
+  :straight t
+  :after evil
+  :config
+  (evil-collection-init)
+  (setq evil-collection-term-sync-state-and-mode-p nil)
+  (evil-collection-define-key 'normal 'dired-mode-map
+    "n" 'evil-search-next
+    "N" 'evil-search-previous
+    "G" 'evil-goto-line
+    "gg" 'evil-goto-first-line))
+
+;; https://www.youtube.com/watch?v=MZPR_SC9LzE
+;; (use-package evil-textobj-tree-sitter
+;;   :straight t)
+
+;; (use-package terraform-ts-mode
+;;   :straight (terraform-ts-mode :type git :host github :repo "kgrotel/terraform-ts-mode"))
