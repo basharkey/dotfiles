@@ -56,6 +56,7 @@
   :straight t
   :config
   (ivy-mode 1)
+  ;; Use a single <tab> for completion
   :bind (:map ivy-minibuffer-map
 	      ("<tab>" . ivy-alt-done)))
 
@@ -64,6 +65,11 @@
   :after counsel
   :config
   (ivy-prescient-mode 1))
+
+(use-package ivy-posframe
+  :straight t
+  :config
+  (ivy-posframe-mode 1))
 
 (use-package dired-subtree
   :straight t
@@ -118,6 +124,7 @@
   :bind (:map evil-normal-state-map
 	      ("M-y" . 'bs/evil-paste-pop))
   :config
+  (delete 'completion-list-mode evil-emacs-state-modes)
   (evil-mode 1))
   ;; (evil-set-initial-state 'term-mode 'emacs))
 
@@ -127,12 +134,15 @@
   :after evil
   :config
   (evil-collection-init)
+  ;; Term don't switch between char and line mode when switching between insert and normal mode
   (setq evil-collection-term-sync-state-and-mode-p nil)
   (evil-collection-define-key 'normal 'dired-mode-map
     "n" 'evil-search-next
     "N" 'evil-search-previous
     "G" 'evil-goto-line
-    "gg" 'evil-goto-first-line))
+    "gg" 'evil-goto-first-line)
+  (evil-collection-define-key 'normal 'completion-list-mode-map
+    (kbd "RET") 'choose-completion))
 
 ;; https://www.youtube.com/watch?v=MZPR_SC9LzE
 ;; (use-package evil-textobj-tree-sitter

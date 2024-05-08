@@ -89,6 +89,11 @@ Ignores CHAR at point."
   (setq current-prefix-arg '(4)) ; C-u
   (call-interactively 'eshell))
 
+(defun bs/eshell-list-history ()
+  (interactive)
+  (eshell-list-history)
+  (other-window 1))
+
 ;; Load bash aliases into eshell
 (defun eshell-load-bash-aliases ()
   "Read Bash aliases and add them to the list of eshell aliases."
@@ -204,6 +209,10 @@ is negative this is a more recent kill."
 	  (lambda ()
 	    (define-key term-raw-map (kbd "M-k") 'term-toggle-mode)
 	    (define-key term-mode-map (kbd "M-k") 'term-toggle-mode)))
+
+(add-hook 'eshell-mode-hook
+	  (lambda ()
+	    (define-key eshell-hist-mode-map (kbd "C-c C-l") 'bs/eshell-list-history)))
 
 ;; https://www.masteringemacs.org/article/how-to-get-started-tree-sitter
 ;; bind `function.outer`(entire function block) to `f` for use in things like `vaf`, `yaf`
