@@ -51,7 +51,7 @@
 ;; -h Human readable sizes
 ;; -t Sort by time, newest first
 (cond ((string= "darwin" system-type) (setq dired-listing-switches "-lAht"))
-      (t (string= "darwin" system-type) (setq dired-listing-switches "-lAht --group-directories-first")))
+      (t (setq dired-listing-switches "-lAht --group-directories-first")))
 
 ;; Make line numbers relative to current line and enable for all buffers
 (setq display-line-numbers-type 'relative)
