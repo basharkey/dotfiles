@@ -29,60 +29,6 @@ If so increment NUM by 1 to generate a new unique buffer name."
   (interactive)
   (load-file user-init-file))
 
-(defun copy-line (arg)
-  "Copy lines (as many as prefix argument) in the kill ring.
-    Ease of use features:
-    - Move to start of next line.
-    - Appends the copy on sequential calls.
-    - Use newline as last char even on the last line of the buffer.
-    - If region is active, copy its lines."
-  (interactive "p")
-  (let ((beg (line-beginning-position))
-	(end (line-end-position arg)))
-    (when mark-active
-      (if (> (point) (mark))
-	  (setq beg (save-excursion (goto-char (mark)) (line-beginning-position)))
-	(setq end (save-excursion (goto-char (mark)) (line-end-position)))))
-    (if (eq last-command 'copy-line)
-	(kill-append (buffer-substring beg end) (< end beg))
-      (kill-ring-save beg end)))
-  (kill-append "\n" nil)
-  (beginning-of-line (or (and arg (1+ arg)) 2))
-  (if (and arg (not (= 1 arg))) (message "%d lines copied" arg)))
-
-(defun copy-to-char (arg char)
-  "`king-ring-save' up to and including ARGth occurrence of CHAR.
-Case is ignored if `case-fold-search' is non-nil in the current buffer.
-Goes backward if ARG is negative; error if CHAR not found.
-See also `copy-up-to-char'."
-  (interactive (list (prefix-numeric-value current-prefix-arg)
-		     (read-char-from-minibuffer "Copy to char: "
-						nil 'read-char-history)))
-  ;; Avoid "obsolete" warnings for translation-table-for-input.
-  (with-no-warnings
-    (if (char-table-p translation-table-for-input)
-	(setq char (or (aref translation-table-for-input char) char))))
-  (copy-region-as-kill (point) (progn
-			 (search-forward (char-to-string char) nil nil arg)
-			 (point))))
-
-(defun copy-up-to-char (arg char)
-  "`kill-ring-save' up to, but not including ARGth occurrence of CHAR.
-Case is ignored if `case-fold-search' is non-nil in the current buffer.
-Goes backward if ARG is negative; error if CHAR not found.
-Ignores CHAR at point."
-  (interactive (list (prefix-numeric-value current-prefix-arg)
-		     (read-char-from-minibuffer "Copy up to char: "
-						nil 'read-char-history)))
-  (let ((direction (if (>= arg 0) 1 -1)))
-    (copy-region-as-kill (point)
-		 (progn
-		   (forward-char direction)
-		   (unwind-protect
-		       (search-forward (char-to-string char) nil nil arg)
-		     (backward-char direction))
-		   (point)))))
-
 ;; Create new eshell buffer
 (defun new-eshell ()
   (interactive)
@@ -94,21 +40,7 @@ Ignores CHAR at point."
   (eshell-list-history)
   (other-window 1))
 
-;; Load bash aliases into eshell
-(defun eshell-load-bash-aliases ()
-  "Read Bash aliases and add them to the list of eshell aliases."
-  ;; Bash needs to be run - temporarily - interactively
-  ;; in order to get the list of aliases.
-  (with-temp-buffer
-    (call-process "bash" nil '(t nil) nil "-ci" "alias")
-    (goto-char (point-min))
-    (while (re-search-forward "alias \\(.+\\)='\\(.+\\)'$" nil t)
-      (eshell/alias (match-string 1) (match-string 2)))))
-;; We only want Bash aliases to be loaded when Eshell loads its own aliases,
-;; rather than every time `eshell-mode' is enabled.
-(add-hook 'eshell-alias-load-hook 'eshell-load-bash-aliases)
-
-;; Toggle between line and char mode in term
+;; ;; Toggle between line and char mode in term
 (defun term-toggle-mode ()
   (interactive)
   (if (term-in-line-mode)
@@ -159,6 +91,17 @@ is negative this is a more recent kill."
     ;; being the first visual paste
     (when (eq last-command 'evil-visual-paste)
       (setcdr (nthcdr 4 evil-last-paste) nil))))
+
+(defun url-encode-region (beg end)
+  "URL encode the region between `BEG' and `END'"
+  (interactive (progn
+		 (let ((beg (mark))
+		       (end (point)))
+                   (unless (and beg end)
+                     (user-error "The mark is not set now, so there is no region"))
+		   (list beg end))))
+  (kill-region beg end)
+  (insert (url-hexify-string (current-kill 0))))
 
 ;;
 ;; Custom keybindings

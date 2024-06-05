@@ -69,3 +69,6 @@
 	 (if (string= (eshell/pwd) (getenv "HOME"))
 	     "~" (eshell/basename (eshell/pwd)))
 	 (if (= (user-uid) 0) "# " "$ "))))
+
+(add-hook 'eshell-load-hook
+	  (lambda () (add-to-list 'eshell-modules-list 'eshell-tramp)))
