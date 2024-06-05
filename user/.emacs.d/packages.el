@@ -103,6 +103,8 @@
 	      ("M-y" . 'bs/evil-paste-pop))
   :config
   (delete 'completion-list-mode evil-emacs-state-modes)
+  ;; Disable evil in term-mode
+  (evil-set-initial-state 'term-mode 'emacs)
   (evil-mode 1))
 
 ;; Evil bindings for everything else including term-mode
@@ -111,6 +113,7 @@
   :after evil
   :custom (evil-collection-setup-minibuffer t)
   :config
+  ;; Also required to disable evil in term-mode
   (delete '(term term ansi-term multi-term) evil-collection-mode-list)
   (evil-collection-define-key 'normal 'dired-mode-map
     "n" 'evil-search-next
