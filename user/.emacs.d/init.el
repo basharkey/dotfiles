@@ -20,8 +20,9 @@ If so increment NUM by 1 to generate a new unique buffer name."
     (concat base-name (number-to-string num))))
 
 (defun bs/ansi-term ()
+  "Create new a new ansi-term buffer.
+The buffers shell is determined by the value of `shell-file-name'."
   (interactive)
-  ;; (ansi-term shell-file-name (concat "ansi-term" " " default-directory)))
   (ansi-term shell-file-name (bs/generate-new-term-buffer-name "at")))
 
 (defun load-user-init-file()
@@ -31,9 +32,11 @@ If so increment NUM by 1 to generate a new unique buffer name."
 
 ;; Create new eshell buffer
 (defun new-eshell ()
+  "Always create a new Eshell buffer"
   (interactive)
-  (setq current-prefix-arg '(4)) ; C-u
-  (call-interactively 'eshell))
+  (let ((eshell-buffer-name (concat "*" (bs/generate-new-term-buffer-name "es") "*")))
+    (setq current-prefix-arg '(4)) ; C-u
+    (call-interactively 'eshell)))
 
 (defun bs/eshell-list-history ()
   (interactive)

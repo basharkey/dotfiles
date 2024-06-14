@@ -25,7 +25,9 @@
 (use-package yaml-mode
   :straight t
   :mode ("\\.yml\\'"
-	 "\\.yaml\\'"))
+	 "\\.yaml\\'"
+	 "\\.yml.j2\\'"
+	 "\\.yaml.j2\\'"))
 
 (use-package terraform-mode
   :straight t)
@@ -35,6 +37,9 @@
   :hook (go-mode . (lambda () (setq tab-width 4))))
 
 (use-package csv-mode
+  :straight t)
+
+(use-package lilypond
   :straight t)
 
 (use-package sqlite3
@@ -103,8 +108,6 @@
 	      ("M-y" . 'bs/evil-paste-pop))
   :config
   (delete 'completion-list-mode evil-emacs-state-modes)
-  ;; Disable evil in term-mode
-  (evil-set-initial-state 'term-mode 'emacs)
   (evil-mode 1))
 
 ;; Evil bindings for everything else including term-mode
@@ -113,8 +116,7 @@
   :after evil
   :custom (evil-collection-setup-minibuffer t)
   :config
-  ;; Also required to disable evil in term-mode
-  (delete '(term term ansi-term multi-term) evil-collection-mode-list)
+  (setq evil-collection-term-sync-state-and-mode-p t)
   (evil-collection-define-key 'normal 'dired-mode-map
     "n" 'evil-search-next
     "N" 'evil-search-previous
