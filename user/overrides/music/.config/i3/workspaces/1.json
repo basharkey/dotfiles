@@ -1,0 +1,19 @@
+{
+    "layout": "splith",
+    "nodes": [
+	{
+	    "swallows": [
+		{
+		    "class": "^REAPER$"
+		}
+	    ]
+	},
+	{
+	    "swallows": [
+		{
+		    "class": "^Emacs$"
+		}
+	    ]
+	}
+    ]
+}

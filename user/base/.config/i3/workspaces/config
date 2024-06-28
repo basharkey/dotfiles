@@ -1,0 +1,19 @@
+workspace 1 output DP-2
+workspace 2 output DP-2
+workspace 3 output DP-2
+workspace 4 output DP-2
+workspace 5 output DP-2
+workspace 6 output DP-1
+workspace 7 output DP-1
+workspace 8 output DP-1
+workspace 9 output DP-1
+workspace 10 output DP-1
+
+exec --no-startup-id "i3-msg 'workspace 8; append_layout ~/.config/i3/workspaces/8.json'"
+# exec --no-startup-id "i3-msg 'workspace 9; append_layout ~/.config/i3/workspaces/9.json'"
+exec --no-startup-id "i3-msg 'workspace 10; append_layout ~/.config/i3/workspaces/10.json'"
+
+exec flatpak run io.github.spacingbat3.webcord
+# exec flatpak run com.discordapp.Discord
+# exec evolution
+exec keepassxc

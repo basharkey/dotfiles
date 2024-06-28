@@ -1,13 +1,5 @@
 {
-    "layout": "splith",
     "nodes": [
-	{
-	    "swallows": [
-		{
-		    "class": "^WebCord$"
-		}
-	    ]
-	},
 	{
 	    "swallows": [
 		{
