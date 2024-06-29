@@ -1,6 +1,6 @@
-exec --no-startup-id "i3-msg 'workspace 1; append_layout $HOME/.config/i3/workspaces/1.json'"
-exec --no-startup-id "i3-msg 'workspace 2; append_layout $HOME/.config/i3/workspaces/2.json'"
+exec --no-startup-id "i3-msg 'workspace 1; append_layout ~/.config/i3/workspaces/1.json'"
+exec --no-startup-id "i3-msg 'workspace 2; append_layout ~/.config/i3/workspaces/2.json'"
 
-exec flaptak run fm.reaper.Reaper
-exec emacsclient --create-frame
+exec flatpak run fm.reaper.Reaper
+exec until systemctl --user -q is-active emacs.service; do sleep 1; done; emacsclient --create-frame
 exec firefox
