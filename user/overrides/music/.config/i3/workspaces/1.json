@@ -4,8 +4,7 @@
 	{
 	    "swallows": [
 		{
-		    "class": "^REAPER$",
-		    "title": "^((?!\\(initializing\\)).)*$"
+		    "class": "^REAPER$"
 		}
 	    ]
 	},
