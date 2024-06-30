@@ -25,7 +25,7 @@ if [ "$environment" = "user" ]; then
 elif [ "$environment" = "system" ]; then
     sudo cp -rT ./system/base /
 
-    if [ -n "$override"]; then
+    if [ -n "$override" ]; then
 	if [ -d "./system/overrides/$override" ]; then
 	    sudo cp -rT "./system/overrides/$override" /
 	else
