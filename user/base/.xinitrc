@@ -1,9 +1,6 @@
 # Allow use of virsh if user is a part of libvirt group
 export LIBVIRT_DEFAULT_URI=qemu:///system
 
-# Set Qt theme to follow qt5ct
-export QT_QPA_PLATFORMTHEME=qt5ct
-
 # Fix dissapearing mouse cursor for VMs (systems without GPU acceleration)
 # export WLR_NO_HARDWARE_CURSORS=1
 
@@ -13,14 +10,11 @@ export GTK_THEME=Adwaita-dark
 # Fix Java apps such as OWASP ZAP only showing a blank screen
 export _JAVA_AWT_WM_NONREPARENTING=1
 
-# SSH agent
+# Set SSH agent socket env var for both the user session and systemd user session
+# must be set for both as ssh-agent is run via systemd user service
 export SSH_AUTH_SOCK=/run/user/$(id -u)/ssh-agent.socket
-
-# Manually set dbus as startx unsets it
-export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus
-
-if command -v dbus-update-activation-environment >/dev/null 2>&1; then
-   dbus-update-activation-environment DISPLAY XAUTHORITY SSH_AUTH_SOCK
+if [ -x "/usr/bin/dbus-update-activation-environment" ]; then
+   dbus-update-activation-environment --systemd SSH_AUTH_SOCK
 fi
 
 # Disable X screensaver and powersaving
