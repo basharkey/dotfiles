@@ -19,12 +19,8 @@ export SSH_AUTH_SOCK=/run/user/$(id -u)/ssh-agent.socket
 # Manually set dbus as startx unsets it
 export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus
 
-# Fix not being able to add new keyrings in seahorse
-# https://github.com/systemd/systemd/blob/main/xorg/50-systemd-user.sh
-systemctl --user import-environment DISPLAY XAUTHORITY
-
 if command -v dbus-update-activation-environment >/dev/null 2>&1; then
-    dbus-update-activation-environment DISPLAY XAUTHORITY
+   dbus-update-activation-environment DISPLAY XAUTHORITY SSH_AUTH_SOCK
 fi
 
 # Disable X screensaver and powersaving
