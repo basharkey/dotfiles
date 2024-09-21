@@ -7,6 +7,9 @@ export LIBVIRT_DEFAULT_URI=qemu:///system
 # GTK4 theme fix
 export GTK_THEME=Adwaita-dark
 
+# Set Qt theme to follow qt5ct
+export QT_QPA_PLATFORMTHEME=qt5ct
+
 # Fix Java apps such as OWASP ZAP only showing a blank screen
 export _JAVA_AWT_WM_NONREPARENTING=1
 
