@@ -117,6 +117,9 @@
   :custom (evil-collection-setup-minibuffer t)
   :config
   (setq evil-collection-term-sync-state-and-mode-p t)
+  ;; Stop term buffer becoming read-only when switching to char mode
+  ;; fixes <delete> not working in insert mode
+  (setq term-char-mode-buffer-read-only nil)
   (evil-collection-define-key 'normal 'dired-mode-map
     "n" 'evil-search-next
     "N" 'evil-search-previous
