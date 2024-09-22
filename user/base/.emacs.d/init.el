@@ -1,6 +1,8 @@
 (load (concat user-emacs-directory "packages.el"))
 (load (concat user-emacs-directory "vars.el"))
 
+(load (concat user-emacs-directory "ansi-term.el"))
+
 (defun scroll-down-center ()
   (interactive)
   (scroll-down)
@@ -11,30 +13,16 @@
   (scroll-up)
   (move-to-window-line nil))
     
-(defun bs/generate-new-term-buffer-name (base-name)
-  " Check if buffer with name BASE-NAME + NUM exists starting at 1.
-If so increment NUM by 1 to generate a new unique buffer name."
-  (let ((num 1))
-    (while (get-buffer (concat "*" base-name (number-to-string num) "*"))
-      (setq num (+ num 1)))
-    (concat base-name (number-to-string num))))
-
-(defun bs/ansi-term ()
-  "Create new a new ansi-term buffer.
-The buffers shell is determined by the value of `shell-file-name'."
-  (interactive)
-  (ansi-term shell-file-name (bs/generate-new-term-buffer-name "at")))
-
 (defun load-user-init-file()
   "Evaluate `user-init-file'"
   (interactive)
   (load-file user-init-file))
 
 ;; Create new eshell buffer
-(defun new-eshell ()
+(defun bs/quick-eshell ()
   "Always create a new Eshell buffer"
   (interactive)
-  (let ((eshell-buffer-name (concat "*" (bs/generate-new-term-buffer-name "es") "*")))
+  (let ((eshell-buffer-name (bs/generate-new-buffer-name "*eshell*")))
     (setq current-prefix-arg '(4)) ; C-u
     (call-interactively 'eshell)))
 
@@ -114,11 +102,13 @@ is negative this is a more recent kill."
 
 (global-set-key (kbd "C-c r") 'load-user-init-file)
 (global-set-key (kbd "C-c l") 'revert-buffer-no-confirm)
-(global-set-key (kbd "C-c e") 'new-eshell)
+(global-set-key (kbd "C-c e") 'bs/quick-eshell)
 (global-set-key (kbd "C-c f") 'rgrep)
 (global-set-key (kbd "C-c y") 'term-paste)
 
-(global-set-key (kbd "C-x a") 'bs/ansi-term)
+(global-set-key (kbd "C-x a") 'bs/quick-ansi-term)
+(global-set-key (kbd "C-x 4 a") 'bs/ansi-term-other-window)
+
 (global-set-key (kbd "C-x w") 'copy-line)
 (global-set-key (kbd "C-x G") 'magit-clone)
 
