@@ -108,6 +108,13 @@ is negative this is a more recent kill."
 
 (global-set-key (kbd "C-x a") 'bs/quick-ansi-term)
 (global-set-key (kbd "C-x 4 a") 'bs/ansi-term-other-window)
+(add-hook 'term-mode-hook
+	  (lambda ()
+	    ;; yank-pop for term
+	    (define-key term-raw-map (kbd "M-y") 'bs/term-yank-from-kill-ring)))
+	    ;; Toggle between line and char mode in term
+	    (define-key term-raw-map (kbd "M-k") 'term-toggle-mode)
+	    (define-key term-mode-map (kbd "M-k") 'term-toggle-mode)
 
 (global-set-key (kbd "C-x w") 'copy-line)
 (global-set-key (kbd "C-x G") 'magit-clone)
@@ -139,12 +146,6 @@ is negative this is a more recent kill."
 ;; Open magit diffs in other window
 (define-key magit-hunk-section-map (kbd "RET") 'magit-diff-visit-file-other-window)
 (define-key magit-file-section-map (kbd "RET") 'magit-diff-visit-file-other-window)
-
-;; Toggle between line and char mode in term
-(add-hook 'term-mode-hook
-	  (lambda ()
-	    (define-key term-raw-map (kbd "M-k") 'term-toggle-mode)
-	    (define-key term-mode-map (kbd "M-k") 'term-toggle-mode)))
 
 (add-hook 'eshell-mode-hook
 	  (lambda ()
