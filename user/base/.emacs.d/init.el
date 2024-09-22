@@ -101,8 +101,8 @@ is negative this is a more recent kill."
 	    (define-key term-raw-map (kbd "M-y") 'bs/term-yank-from-kill-ring)
 	    (define-key term-raw-map (kbd "C-c y") 'term-paste)
 	    ;; Toggle between line and char mode in term
-	    (define-key term-raw-map (kbd "M-k") 'term-mode-toggle)
-	    (define-key term-mode-map (kbd "M-k") 'term-mode-toggle)))
+	    (define-key term-raw-map (kbd "M-k") 'bs/term-mode-toggle)
+	    (define-key term-mode-map (kbd "M-k") 'bs/term-mode-toggle)))
 
 (global-set-key (kbd "C-x w") 'copy-line)
 (global-set-key (kbd "C-x G") 'magit-clone)

@@ -100,7 +100,7 @@ and `C-x' being marked as a `term-escape-char'."
 
   term-ansi-buffer-name)
 
-(defun term-mode-toggle ()
+(defun bs/term-mode-toggle ()
   "Toggle term betweer line and char mode"
   (interactive)
   (if (term-in-line-mode)
