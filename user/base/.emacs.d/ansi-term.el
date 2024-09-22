@@ -12,7 +12,6 @@ until an unused name is found, and then return that name."
       (setq num (+ num 1)))
     (concat name "<" (number-to-string num) ">")))
 
-
 (defun bs/ansi-term (program &optional new-buffer-name)
   "Start a terminal-emulator in a new buffer.
 This is almost the same as `term' apart from always creating a new buffer,
@@ -58,7 +57,6 @@ and `C-x' being marked as a `term-escape-char'."
 
   (switch-to-buffer term-ansi-buffer-name))
 
-
 (defun bs/ansi-term-no-select (program &optional new-buffer-name)
   "Like `bs/ansi-term' but return the term buffer as value, do not select it."
   (interactive (list (read-from-minibuffer "Run program: "
@@ -102,6 +100,12 @@ and `C-x' being marked as a `term-escape-char'."
 
   term-ansi-buffer-name)
 
+(defun term-mode-toggle ()
+  "Toggle term betweer line and char mode"
+  (interactive)
+  (if (term-in-line-mode)
+      (term-char-mode)
+    (term-line-mode)))
 
 (defun bs/quick-ansi-term ()
   "Create a new ansi-term buffer without prompting,
@@ -109,11 +113,9 @@ using the current value of `shell-file-name' as run program."
   (interactive)
   (bs/ansi-term shell-file-name))
 
-
 (defun bs/ansi-term-other-window ()
   (interactive)
   (switch-to-buffer-other-window (bs/ansi-term-no-select shell-file-name)))
-
 
 (defun bs/read-from-kill-ring (prompt)
   "Like `read-from-kill-ring' but don't insert lastest kill after the PROMPT"
@@ -168,12 +170,10 @@ using the current value of `shell-file-name' as run program."
            (complete-with-action action completions string pred)))
        nil nil nil nil))))
 
-
 (defun bs/term-yank-from-kill-ring (string)
-  "Like `yank-from-kill-ring' but for inserting previously killed test
+  "Like `yank-from-kill-ring' but for inserting previously killed text
 into a term buffer."
-  (interactive (list (bs/read-from-kill-ring "Yank from kill-ring: ")
-                     current-prefix-arg))
+  (interactive (list (bs/read-from-kill-ring "Yank from kill-ring: ")))
   (setq yank-window-start (window-start))
   (push-mark)
   (term-send-raw-string string)
@@ -181,4 +181,4 @@ into a term buffer."
     (let ((pos (seq-position kill-ring string)))
       (if pos
           (setq kill-ring-yank-pointer (nthcdr pos kill-ring))
-        (kill-new string))))
+        (kill-new string)))))

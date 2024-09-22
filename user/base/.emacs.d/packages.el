@@ -39,9 +39,6 @@
 (use-package csv-mode
   :straight t)
 
-(use-package lilypond
-  :straight t)
-
 (use-package sqlite3
   :straight t)
 
@@ -103,7 +100,10 @@
 
 (use-package evil
   :straight t
-  :init (setq evil-want-keybinding nil)
+  :init
+  (setq evil-want-keybinding nil)
+  (setq evil-want-C-u-scroll t)
+  (setq evil-want-C-d-scroll t)
   :bind (:map evil-normal-state-map
 	      ("M-y" . 'bs/evil-paste-pop))
   :config

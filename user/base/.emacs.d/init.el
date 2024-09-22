@@ -3,16 +3,6 @@
 
 (load (concat user-emacs-directory "ansi-term.el"))
 
-(defun scroll-down-center ()
-  (interactive)
-  (scroll-down)
-  (move-to-window-line nil))
-    
-(defun scroll-up-center ()
-  (interactive)
-  (scroll-up)
-  (move-to-window-line nil))
-    
 (defun load-user-init-file()
   "Evaluate `user-init-file'"
   (interactive)
@@ -30,13 +20,6 @@
   (interactive)
   (eshell-list-history)
   (other-window 1))
-
-;; ;; Toggle between line and char mode in term
-(defun term-toggle-mode ()
-  (interactive)
-  (if (term-in-line-mode)
-      (term-char-mode)
-    (term-line-mode)))
 
 ;; Source: https://www.emacswiki.org/emacs/misc-cmds.el
 (defun revert-buffer-no-confirm ()
@@ -89,7 +72,7 @@ is negative this is a more recent kill."
 		 (let ((beg (mark))
 		       (end (point)))
                    (unless (and beg end)
-                     (user-error "The mark is not set now, so there is no region"))
+                     (user-error "The mark is not set, so there is no region"))
 		   (list beg end))))
   (kill-region beg end)
   (insert (url-hexify-string (current-kill 0))))
@@ -98,23 +81,28 @@ is negative this is a more recent kill."
 ;; Custom keybindings
 ;;
 
+;; Set custom universal-argument keybinding as C-u is used by evil-scroll-up
+(global-set-key (kbd "C-c u") 'universal-argument)
+(define-key universal-argument-map (kbd "C-c u") 'universal-argument-more)
+(define-key universal-argument-map (kbd "C-u") nil)
+
 (global-set-key (kbd "M-y") 'bs/evil-paste-pop)
 
 (global-set-key (kbd "C-c r") 'load-user-init-file)
 (global-set-key (kbd "C-c l") 'revert-buffer-no-confirm)
 (global-set-key (kbd "C-c e") 'bs/quick-eshell)
 (global-set-key (kbd "C-c f") 'rgrep)
-(global-set-key (kbd "C-c y") 'term-paste)
 
 (global-set-key (kbd "C-x a") 'bs/quick-ansi-term)
 (global-set-key (kbd "C-x 4 a") 'bs/ansi-term-other-window)
 (add-hook 'term-mode-hook
 	  (lambda ()
 	    ;; yank-pop for term
-	    (define-key term-raw-map (kbd "M-y") 'bs/term-yank-from-kill-ring)))
+	    (define-key term-raw-map (kbd "M-y") 'bs/term-yank-from-kill-ring)
+	    (define-key term-raw-map (kbd "C-c y") 'term-paste)
 	    ;; Toggle between line and char mode in term
-	    (define-key term-raw-map (kbd "M-k") 'term-toggle-mode)
-	    (define-key term-mode-map (kbd "M-k") 'term-toggle-mode)
+	    (define-key term-raw-map (kbd "M-k") 'term-mode-toggle)
+	    (define-key term-mode-map (kbd "M-k") 'term-mode-toggle)))
 
 (global-set-key (kbd "C-x w") 'copy-line)
 (global-set-key (kbd "C-x G") 'magit-clone)
