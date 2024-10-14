@@ -184,4 +184,5 @@ into a term buffer."
         (kill-new string)))))
 
 (defun bs/kill-ansi-term-buffers ()
+  (interactive)
   (kill-matching-buffers "\\*ansi-term\\*<[0-9]+>" nil t))
