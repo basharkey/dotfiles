@@ -1,3 +1,9 @@
+autoload -Uz compinit
+compinit
+
+alias k=kubectl
+[[ $commands[kubectl] ]] && source <(kubectl completion zsh) # add autocomplete permanently to your zsh shell
+
 # Don't cycle through tab completion entries just list them
 setopt NO_AUTO_MENU
 
