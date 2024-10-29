@@ -105,7 +105,8 @@
   (setq evil-want-C-u-scroll t)
   (setq evil-want-C-d-scroll t)
   :bind (:map evil-normal-state-map
-	      ("M-y" . 'bs/evil-paste-pop))
+	      ("M-y" . 'bs/evil-paste-pop)
+	      ("g r" . 'revert-buffer-no-confirm))
   :config
   (delete 'completion-list-mode evil-emacs-state-modes)
   (evil-mode 1))

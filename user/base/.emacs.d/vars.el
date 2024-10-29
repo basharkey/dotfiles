@@ -33,7 +33,7 @@
 (setq initial-scratch-message nil)
 
 ;; Auto pair for quotes and brackets
-(electric-pair-mode 1)
+;; (electric-pair-mode 1)
 
 ;; Enables usage of minibuffers in minibuffers, such as calling counsel-yank-pop while performing a query-replace
 (setq enable-recursive-minibuffers t)
