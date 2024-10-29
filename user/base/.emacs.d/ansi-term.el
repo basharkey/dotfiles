@@ -178,6 +178,6 @@ into a term buffer."
           (setq kill-ring-yank-pointer (nthcdr pos kill-ring))
         (kill-new string)))))
 
-(defun bs/kill-ansi-term-buffers ()
+(defun bs/kill-all-ansi-term-buffers ()
   (interactive)
-  (kill-matching-buffers "\\*ansi-term\\*<[0-9]+>" nil t))
+  (kill-matching-buffers "\\*at[0-9]+\\*" nil t))
