@@ -67,13 +67,7 @@ and `C-x' being marked as a `term-escape-char'."
 	      (if (eq term-ansi-buffer-base-name t)
 		  (file-name-nondirectory program)
 		term-ansi-buffer-base-name)
-	    "ansi-term")))
-
-  (setq term-ansi-buffer-name (concat "*" term-ansi-buffer-name "*"))
-
-  ;; In order to have more than one term active at a time
-  ;; I'd like to have the term names have the *term-ansi-term<?>* form,
-  ;; for now they have the *term-ansi-term*<?> form but we'll see...
+	    "at")))
 
   (setq term-ansi-buffer-name (bs/generate-new-buffer-name term-ansi-buffer-name))
   (setq term-ansi-buffer-name (term-ansi-make-term term-ansi-buffer-name program))
