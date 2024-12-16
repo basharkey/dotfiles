@@ -52,10 +52,6 @@ set $right l
 # use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
-# move tiling windows via drag & drop by left-clicking into the title bar,
-# or left-clicking anywhere into the window while holding the floating modifier.
-tiling_drag modifier titlebar
-
 # start a terminal
 set $term alacritty
 bindsym $mod+Return exec $term
@@ -237,5 +233,5 @@ exec --no-startup-id flameshot
 
 bindsym $mod+Shift+s exec flameshot gui
 
-include $HOME/.config/sway/config.d
+include $HOME/.config/sway/config.d/*
 include /etc/sway/config.d/*
