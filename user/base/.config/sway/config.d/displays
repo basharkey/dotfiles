@@ -1,3 +1,4 @@
 # swaymsg -t get_outputs
+output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 output DP-0 pos 0 0 res 2560x1440
 output DP-1 pos 2560 180 res 1920x1080
