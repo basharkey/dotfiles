@@ -26,7 +26,7 @@ include /etc/sway/config-vars.d/*
 #
 set $lock_screen_timeout 10
 
-exec --no-startup-id swayidle -w \
+exec  swayidle -w \
     timeout $locker_screen_timeout 'if pgrep swaylock; then swaymsg "output * dpms off"; fi' \
         resume 'swaymsg "output * dpms on"' \
     before-sleep 'swaylock -f'
@@ -195,23 +195,32 @@ bar {
     status_command i3blocks
 }
 
+font pango:Noto Sans Mono 13
+
 set $mode_system System (l) lock, (e) exit, (s) suspend, (r) reboot, (Shift+s) shutdown
 mode "$mode_system" {
-    bindsym l exec --no-startup-id swaylock -f && sleep 1, mode "default"
-    bindsym e exec --no-startup-id swaymsg exit, mode "default"
-    bindsym s exec --no-startup-id systemctl suspend, mode "default"
-    bindsym r exec --no-startup-id systemctl reboot, mode "default"
-    bindsym Shift+s exec --no-startup-id systemctl poweroff -i, mode "default"
+    bindsym l exec  swaylock -f && sleep 1, mode "default"
+    bindsym e exec  swaymsg exit, mode "default"
+    bindsym s exec  systemctl suspend, mode "default"
+    bindsym r exec  systemctl reboot, mode "default"
+    bindsym Shift+s exec  systemctl poweroff -i, mode "default"
 
-# exec --no-startup-id flameshot
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+bindsym $mod+Escape mode "$mode_system"
+
+# exec  flameshot
 # bindsym $mod+Shift+s exec flameshot gui
 bindsym $mod+Shift+s exec grimshot save area - | swappy -f -
 
-exec --no-startup-id dunst
-exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
-exec --no-startup-id easyeffects --gapplication-service
-exec --no-startup-id pcmanfm-qt --daemon-mode
-exec --no-startup-id wlsunset $(cat $HOME/.config/wlsunset/config)
+exec dunst
+exec /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
+exec easyeffects --gapplication-service
+exec pcmanfm-qt --daemon-mode
+exec wlsunset $(cat $HOME/.config/wlsunset/config)
 
 include $HOME/.config/sway/config.d/*
 include /etc/sway/config.d/*
