@@ -195,7 +195,7 @@ bar {
 
 font pango:Noto Sans Mono 13
 
-set $locker swaylock -f && sleep 1
+set $locker swaylock -f -c 000000 && sleep 1
 set $mode_system System (l) lock, (e) exit, (s) suspend, (r) reboot, (Shift+s) shutdown
 mode "$mode_system" {
     bindsym l exec  $locker, mode "default"
