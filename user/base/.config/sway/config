@@ -28,12 +28,10 @@ set $lock_screen_timeout 10
 
 exec  swayidle -w \
     timeout $locker_screen_timeout 'if pgrep swaylock; then swaymsg "output * dpms off"; fi' \
-        resume 'swaymsg "output * dpms on"' \
-    before-sleep 'swaylock -f'
+        resume 'swaymsg "output * dpms on"'
 
 # If your screen is locked this will turn of your displays after the value
-# set for $lock_screen_timeout in seconds. It will also lock your screen
-# before your computer goes to sleep.
+# set for $lock_screen_timeout in seconds.
 
 ### Input configuration
 #
@@ -197,11 +195,12 @@ bar {
 
 font pango:Noto Sans Mono 13
 
+set $locker swaylock -f && sleep 1
 set $mode_system System (l) lock, (e) exit, (s) suspend, (r) reboot, (Shift+s) shutdown
 mode "$mode_system" {
-    bindsym l exec  swaylock -f && sleep 1, mode "default"
+    bindsym l exec  $locker, mode "default"
     bindsym e exec  swaymsg exit, mode "default"
-    bindsym s exec  systemctl suspend, mode "default"
+    bindsym s exec  $locker && systemctl suspend, mode "default"
     bindsym r exec  systemctl reboot, mode "default"
     bindsym Shift+s exec  systemctl poweroff -i, mode "default"
 
