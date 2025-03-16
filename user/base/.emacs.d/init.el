@@ -77,6 +77,11 @@ is negative this is a more recent kill."
   (kill-region beg end)
   (insert (url-hexify-string (current-kill 0))))
 
+(defun tramp-cleanup-all ()
+  (interactive)
+  (tramp-cleanup-all-buffers)
+  (tramp-cleanup-all-connections))
+
 ;;
 ;; Custom keybindings
 ;;
