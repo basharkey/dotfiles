@@ -233,7 +233,7 @@ exec --no-startup-id dunst
 exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id easyeffects --gapplication-service
 exec --no-startup-id pcmanfm-qt --daemon-mode
-exec --no-startup-id redshift $(cat $HOME/.config/redshift/config)
+exec --no-startup-id redshift -l manual -c $HOME/.config/redshift.conf
 exec --no-startup-id flameshot
 
 bindsym $mod+Shift+s exec flameshot gui
