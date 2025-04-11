@@ -22,6 +22,29 @@
 ;; Packages
 ;;
 
+(use-package vertico
+  :straight t
+  :init
+  (vertico-mode)
+  :bind (:map vertico-map
+              ("DEL" . vertico-directory-delete-char)
+              ("M-DEL" . vertico-directory-delete-word))
+  ;; Tidy shadowed file names
+  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
+
+(use-package vertico-prescient
+  :straight t
+  :after vertico
+  :init
+  (vertico-prescient-mode))
+
+(use-package orderless
+  :straight t
+  :ensure t
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles basic partial-completion)))))
+
 (use-package yaml-mode
   :straight t
   :mode ("\\.yml\\'"
@@ -48,25 +71,6 @@
 (use-package forge
   :straight t
   :after magit)
-
-(use-package counsel
-  :straight t
-  :config
-  (counsel-mode 1))
-
-(use-package ivy
-  :straight t
-  :config
-  (ivy-mode 1)
-  ;; Use a single <tab> for completion
-  :bind (:map ivy-minibuffer-map
-	      ("<tab>" . ivy-alt-done)))
-
-(use-package ivy-prescient
-  :straight t
-  :after counsel
-  :config
-  (ivy-prescient-mode 1))
 
 (use-package dired-subtree
   :straight t
@@ -105,7 +109,8 @@
   (setq evil-want-C-u-scroll t)
   (setq evil-want-C-d-scroll t)
   :bind (:map evil-normal-state-map
-	      ("M-y" . 'bs/evil-paste-pop)
+	      ("M-y" . 'bs/evil-paste-after-from-kill-ring)
+	      ("M-Y" . 'bs/evil-paste-before-from-kill-ring)
 	      ("g r" . 'revert-buffer-no-confirm))
   :config
   (delete 'completion-list-mode evil-emacs-state-modes)
