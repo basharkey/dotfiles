@@ -1,0 +1,11 @@
+[Desktops]
+Number=10
+Rows=1
+
+[Plugins]
+krohnkiteEnabled=true
+slideEnabled=false
+
+[Windows]
+DelayFocusInterval=0
+FocusPolicy=FocusFollowsMouse
