@@ -22,29 +22,6 @@
 ;; Packages
 ;;
 
-(use-package vertico
-  :straight t
-  :init
-  (vertico-mode)
-  :bind (:map vertico-map
-              ("DEL" . vertico-directory-delete-char)
-              ("M-DEL" . vertico-directory-delete-word))
-  ;; Tidy shadowed file names
-  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
-
-(use-package vertico-prescient
-  :straight t
-  :after vertico
-  :init
-  (vertico-prescient-mode))
-
-(use-package orderless
-  :straight t
-  :ensure t
-  :custom
-  (completion-styles '(orderless basic))
-  (completion-category-overrides '((file (styles basic partial-completion)))))
-
 (use-package yaml-mode
   :straight t
   :mode ("\\.yml\\'"
@@ -57,7 +34,8 @@
 
 (use-package go-mode
   :straight t
-  :hook (go-mode . (lambda () (setq tab-width 4))))
+  :hook (go-mode . (lambda ()
+		     (setq tab-width 4))))
 
 (use-package csv-mode
   :straight t)
@@ -66,11 +44,36 @@
   :straight t)
 
 (use-package magit
-  :straight t)
-
-(use-package forge
   :straight t
-  :after magit)
+  :bind (:map magit-hunk-section-map
+              ("RET" . magit-diff-visit-file-other-window)
+              ("M-RET" . magit-diff-visit-file)
+	      :map magit-file-section-map
+              ("RET" . magit-diff-visit-file-other-window)
+              ("M-RET" . magit-diff-visit-file)))
+
+(use-package vertico-prescient
+  :straight t
+  :after vertico
+  :init
+  (vertico-prescient-mode))
+
+(use-package vertico
+  :straight t
+  :init
+  (vertico-mode)
+  :bind (:map vertico-map
+              ("DEL" . vertico-directory-delete-char)
+              ("M-DEL" . vertico-directory-delete-word))
+  ;; Tidy shadowed file names
+  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
+
+(use-package orderless
+  :straight t
+  :ensure t
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles basic partial-completion)))))
 
 (use-package dired-subtree
   :straight t
@@ -92,7 +95,8 @@
 (use-package restclient
   :straight t
   :mode ("\\.rstc\\'" . restclient-mode)
-  :hook (restclient-mode . (lambda () (setq tab-width 2))))
+  :hook (restclient-mode . (lambda ()
+			     (setq tab-width 2))))
 
 (use-package modus-themes
   :straight t
@@ -126,14 +130,21 @@
   ;; Stop term buffer becoming read-only when switching to char mode
   ;; fixes <delete> not working in insert mode
   ;; (setq term-char-mode-buffer-read-only nil)
+
+  ;; Evil Dired modifications
   (evil-collection-define-key 'normal 'dired-mode-map
     "n" 'evil-search-next
     "N" 'evil-search-previous
-    "G" 'evil-goto-line
-    "gg" 'evil-goto-first-line)
+    "G" (lambda ()
+	  (interactive)
+	  (evil-goto-line (evil-ex-last-line)))
+    "gg" (lambda ()
+	   (interactive)
+	   (evil-goto-line 2))
+
   (evil-collection-define-key 'normal 'completion-list-mode-map
     (kbd "RET") 'choose-completion)
-  (evil-collection-init))
+  (evil-collection-init)))
 
 ;; https://www.youtube.com/watch?v=MZPR_SC9LzE
 ;; (use-package evil-textobj-tree-sitter

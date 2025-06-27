@@ -54,33 +54,27 @@
 (define-key universal-argument-map (kbd "C-u") nil)
 
 (global-set-key (kbd "C-c r") 'load-user-init-file)
-(global-set-key (kbd "C-c l") 'revert-buffer-no-confirm)
 (global-set-key (kbd "C-c e") 'bs/quick-eshell)
 (global-set-key (kbd "C-c f") 'rgrep)
 
+(global-set-key (kbd "C-c o") 'window-swap-states)
+(global-set-key (kbd "C-c l") 'windmove-right)
+(global-set-key (kbd "C-c h") 'windmove-left)
+(global-set-key (kbd "C-c k") 'windmove-up)
+(global-set-key (kbd "C-c j") 'windmove-down)
+
+
+(global-set-key (kbd "C-x w") 'copy-line)
 (global-set-key (kbd "C-x G") 'magit-clone)
+
+(global-set-key (kbd "M-z") 'zap-up-to-char)
+(global-set-key (kbd "M-S-z") 'zap-to-char)
+
+(global-set-key (kbd "C-z") 'copy-up-to-char)
+(global-set-key (kbd "C-S-z") 'copy-to-char)
 
 (global-set-key (kbd "<prior>") 'scroll-down-center)
 (global-set-key (kbd "<next>") 'scroll-up-center)
-
-;; windmove keymap
-(defvar windmove-leader-map (make-sparse-keymap)
-  "Prefix binding for windmove functions")
-(global-set-key (kbd "C-c 1") windmove-leader-map)
-
-(define-key windmove-leader-map (kbd "f") 'windmove-right)
-(define-key windmove-leader-map (kbd "b") 'windmove-left)
-(define-key windmove-leader-map (kbd "p") 'windmove-up)
-(define-key windmove-leader-map (kbd "n") 'windmove-down)
-
-(define-key windmove-leader-map (kbd "F") 'windmove-swap-states-right)
-(define-key windmove-leader-map (kbd "B") 'windmove-swap-states-left)
-(define-key windmove-leader-map (kbd "P") 'windmove-swap-states-up)
-(define-key windmove-leader-map (kbd "N") 'windmove-swap-states-down)
-
-;; Open magit diffs in other window
-(define-key magit-hunk-section-map (kbd "RET") 'magit-diff-visit-file-other-window)
-(define-key magit-file-section-map (kbd "RET") 'magit-diff-visit-file-other-window)
 
 (add-hook 'eshell-mode-hook
 	  (lambda ()
@@ -91,8 +85,3 @@
 ;; (define-key evil-outer-text-objects-map "f" (evil-textobj-tree-sitter-get-textobj "function.outer"))
 ;; bind `function.inner`(function block without name and args) to `f` for use in things like `vif`, `yif`
 ;; (define-key evil-inner-text-objects-map "f" (evil-textobj-tree-sitter-get-textobj "function.inner"))
-
-;; Ideas
-;; In dired pressing 1, 2, or 3 expands dirs using dired-subtree
-;; 1 expand dirs depth 1, 2 expand dirs depth2
-;; kinda like magit 1, 2, or 3

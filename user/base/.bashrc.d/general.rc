@@ -1,2 +1,0 @@
-export EDITOR=emacsclient
-alias tt="gio trash"
